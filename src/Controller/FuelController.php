@@ -27,9 +27,43 @@ class FuelController extends AppController
 
         $allresults = json_encode(['Status'=>'00','NSW'=>$nswresults->toArray(),'TAS'=>$tasresults->toArray(),'WA'=>$waresults->toArray()]);
 
-        $this->response = $this->response->cors($this->request)->allowOrigin(['*'])->allowMethods(['GET'])->allowCredentials()->maxAge(300)->build();
+        $this->response = $this->response->cors($this->request)->allowOrigin(['*'])->allowMethods(['GET'])->allowCredentials()->maxAge(1500)->build();
         return $this->response->withType("application/json")->withStringBody($allresults);
 
+    }
+
+    public function cheapInfo($key=null){
+        $this->autoRender=false;
+        $nswCheapU91 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
+        $nswCheapE10 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
+        $nswCheapP95 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
+        $nswCheapP98 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
+        $nswCheapLPG = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
+        $nswCheapDL = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
+        $nswCheapPDL = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
+
+        $WaCheapU91 = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand','name','address','loc_lat','loc_lng','U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
+        $WaCheapP95 = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand','name','address','loc_lat','loc_lng','P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
+        $WaCheapP98 = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand','name','address','loc_lat','loc_lng','P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
+        $WaCheapLPG = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand','name','address','loc_lat','loc_lng','LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
+        $WaCheapDL = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand','name','address','loc_lat','loc_lng','DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
+        $WaCheapPDL = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand','name','address','loc_lat','loc_lng','PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
+
+        $TasCheapU91 = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
+        $TasCheapE10 = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
+        $TasCheapP95 = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
+        $TasCheapP98 = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
+        $TasCheapLPG = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
+        $TasCheapDL = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
+        $TasCheapPDL = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
+
+        $allresults = json_encode(['Status'=>'00',
+            'NSW'=>['U91'=>$nswCheapU91,'E10'=>$nswCheapE10,'P95'=>$nswCheapP95,'P98'=>$nswCheapP98,'DL'=>$nswCheapDL,'PDL'=>$nswCheapPDL,'LPG'=>$nswCheapLPG],
+            'TAS'=>['U91'=>$TasCheapU91,'E10'=>$TasCheapE10,'P95'=>$TasCheapP95,'P98'=>$TasCheapP98,'DL'=>$TasCheapDL,'PDL'=>$TasCheapPDL,'LPG'=>$TasCheapLPG],
+            'WA'=>['U91'=>$WaCheapU91,'P95'=>$WaCheapP95,'P98'=>$WaCheapP98,'DL'=>$WaCheapDL,'PDL'=>$WaCheapPDL,'LPG'=>$WaCheapLPG]]);
+
+        $this->response = $this->response->cors($this->request)->allowOrigin(['*'])->allowMethods(['GET'])->allowCredentials()->maxAge(900)->build();
+        return $this->response->withType("application/json")->withStringBody($allresults);
     }
 
     /**
