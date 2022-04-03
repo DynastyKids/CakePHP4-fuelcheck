@@ -46,20 +46,20 @@ class FuelController extends AppController
 
         $waresults = TableRegistry::getTableLocator()->get('wafuel')->find()->select(['brand','name','address','loc_lat','loc_lng','U91','P95','P98','DL','PDL','LPG','E85','B20']);
 
-        return $this->response->withType("application/json")->withStringBody($waresults);
+        return $this->response->withType("application/json")->withStringBody(json_encode($waresults));
     }
 
     public function nsw($key=null)
     {
         $this->autoRender=false;
-        $nswcount = TableRegistry::getTableLocator()->get('tasfuel')->find()->count();
+        $nswcount = TableRegistry::getTableLocator()->get('nswfuel')->find()->count();
         if($nswcount<=10){
             return $this->response->withType("application/json")->withStringBody(json_encode(["Status"=>"01","Error"=>"Updating New South Wales fuel info, please comeback few minutes later."]));
         }
         
         $nswresults = TableRegistry::getTableLocator()->get('nswfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','U91','P95','P98','DL','PDL','LPG','E85','B20']);
         
-        return $this->response->withType("application/json")->withStringBody($nswresults);
+        return $this->response->withType("application/json")->withStringBody(json_encode($nswresults));
     }
 
     public function tas($key=null)
@@ -71,7 +71,7 @@ class FuelController extends AppController
         }
         $tasresults = TableRegistry::getTableLocator()->get('tasfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','U91','P95','P98','DL','PDL','LPG','E85','B20']);
 
-        return $this->response->withType("application/json")->withStringBody($tasresults);
+        return $this->response->withType("application/json")->withStringBody(json_encode($tasresults));
     }
 
     public function act($key=null)
