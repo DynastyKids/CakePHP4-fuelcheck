@@ -51,6 +51,7 @@ return static function (RouteBuilder $routes) {
          * to use (in this case, templates/Pages/home.php)...
          */
         $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+        $builder->connect('/cheapinfo', ['controller' => 'Fuel', 'action' => 'cheapinfo']);
         $builder->connect('/nsw', ['controller' => 'Fuel', 'action' => 'nsw']);
         $builder->connect('/act', ['controller' => 'Fuel', 'action' => 'act']);
         $builder->connect('/qld', ['controller' => 'Fuel', 'action' => 'qld']);

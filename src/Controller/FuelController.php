@@ -32,7 +32,7 @@ class FuelController extends AppController
 
     }
 
-    public function cheapInfo($key=null){
+    public function cheapinfo($key=null){
         $this->autoRender=false;
         $nswCheapU91 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
         $nswCheapE10 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
