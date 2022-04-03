@@ -27,6 +27,7 @@ class FuelController extends AppController
 
         $allresults = json_encode(['Status'=>'00','NSW'=>$nswresults->toArray(),'TAS'=>$tasresults->toArray(),'WA'=>$waresults->toArray()]);
 
+        $this->response = $this->response->cors($this->request)->allowOrigin(['*'])->allowMethods(['GET'])->allowCredentials()->maxAge(300)->build();
         return $this->response->withType("application/json")->withStringBody($allresults);
 
     }
