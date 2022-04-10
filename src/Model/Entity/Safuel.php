@@ -6,10 +6,11 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Wafuel Entity
+ * Safuel Entity
  *
  * @property int $id
  * @property string|null $brand
+ * @property int|null $code
  * @property string|null $name
  * @property string|null $address
  * @property string|null $suburb
@@ -28,7 +29,7 @@ use Cake\ORM\Entity;
  * @property float|null $B20
  * @property float|null $LAF
  */
-class Wafuel extends Entity
+class Safuel extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -41,6 +42,7 @@ class Wafuel extends Entity
      */
     protected $_accessible = [
         'brand' => true,
+        'code' => true,
         'name' => true,
         'address' => true,
         'suburb' => true,

@@ -9,23 +9,23 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Wafuel Model
+ * Actfuel Model
  *
- * @method \App\Model\Entity\Wafuel newEmptyEntity()
- * @method \App\Model\Entity\Wafuel newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Wafuel[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Wafuel get($primaryKey, $options = [])
- * @method \App\Model\Entity\Wafuel findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Wafuel patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Wafuel[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Wafuel|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Wafuel saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Wafuel[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Wafuel[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Wafuel[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Wafuel[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Actfuel newEmptyEntity()
+ * @method \App\Model\Entity\Actfuel newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\Actfuel[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Actfuel get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Actfuel findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Actfuel patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Actfuel[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Actfuel|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Actfuel saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Actfuel[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Actfuel[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Actfuel[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Actfuel[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class WafuelTable extends Table
+class ActfuelTable extends Table
 {
     /**
      * Initialize method
@@ -37,7 +37,7 @@ class WafuelTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('wafuel');
+        $this->setTable('actfuel');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
     }
@@ -60,10 +60,14 @@ class WafuelTable extends Table
             ->allowEmptyString('brand');
 
         $validator
+            ->integer('code')
+            ->allowEmptyString('code')
+            ->add('code', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+
+        $validator
             ->scalar('name')
             ->maxLength('name', 255)
-            ->allowEmptyString('name')
-            ->add('name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->allowEmptyString('name');
 
         $validator
             ->scalar('address')
@@ -76,7 +80,7 @@ class WafuelTable extends Table
 
         $validator
             ->scalar('state')
-            ->maxLength('state', 10)
+            ->maxLength('state', 5)
             ->allowEmptyString('state');
 
         $validator
@@ -127,10 +131,6 @@ class WafuelTable extends Table
             ->numeric('B20')
             ->allowEmptyString('B20');
 
-        $validator
-            ->numeric('LAF')
-            ->allowEmptyString('LAF');
-
         return $validator;
     }
 
@@ -143,7 +143,7 @@ class WafuelTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->isUnique(['name'], ['allowMultipleNulls' => true]), ['errorField' => 'name']);
+        $rules->add($rules->isUnique(['code'], ['allowMultipleNulls' => true]), ['errorField' => 'code']);
 
         return $rules;
     }

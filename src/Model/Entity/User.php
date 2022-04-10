@@ -14,6 +14,14 @@ use Cake\ORM\Entity;
  * @property string|null $userkey
  * @property string|null $useremail
  * @property string|null $userpass
+ * @property int|null $NSW
+ * @property int|null $TAS
+ * @property int|null $WA
+ * @property int|null $ACT
+ * @property int|null $VIC
+ * @property int|null $SA
+ * @property int|null $NT
+ * @property int|null $QLD
  */
 class User extends Entity
 {
@@ -32,5 +40,13 @@ class User extends Entity
         'userkey' => true,
         'useremail' => true,
         'userpass' => true,
+        'NSW' => true,
+        'TAS' => true,
+        'WA' => true,
+        'ACT' => true,
+        'VIC' => true,
+        'SA' => true,
+        'NT' => true,
+        'QLD' => true,
     ];
 }

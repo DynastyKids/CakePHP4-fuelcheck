@@ -76,6 +76,30 @@ class UsersTable extends Table
             ->maxLength('userpass', 64)
             ->allowEmptyString('userpass');
 
+        $validator
+            ->allowEmptyString('NSW');
+
+        $validator
+            ->allowEmptyString('TAS');
+
+        $validator
+            ->allowEmptyString('WA');
+
+        $validator
+            ->allowEmptyString('ACT');
+
+        $validator
+            ->allowEmptyString('VIC');
+
+        $validator
+            ->allowEmptyString('SA');
+
+        $validator
+            ->allowEmptyString('NT');
+
+        $validator
+            ->allowEmptyString('QLD');
+
         return $validator;
     }
 }
