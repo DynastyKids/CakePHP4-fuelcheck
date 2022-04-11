@@ -74,6 +74,21 @@ class NswfuelTable extends Table
             ->allowEmptyString('address');
 
         $validator
+            ->scalar('suburb')
+            ->maxLength('suburb', 255)
+            ->allowEmptyString('suburb');
+
+        $validator
+            ->scalar('state')
+            ->maxLength('state', 5)
+            ->allowEmptyString('state');
+
+        $validator
+            ->scalar('postcode')
+            ->maxLength('postcode', 6)
+            ->allowEmptyString('postcode');
+
+        $validator
             ->numeric('loc_lat')
             ->allowEmptyString('loc_lat');
 

@@ -15,6 +15,7 @@ use Cake\ORM\Entity;
  * @property string|null $address
  * @property string|null $suburb
  * @property string|null $state
+ * @property string|null $postcode
  * @property float|null $loc_lat
  * @property float|null $loc_lng
  * @property float|null $U91
@@ -47,6 +48,7 @@ class Safuel extends Entity
         'address' => true,
         'suburb' => true,
         'state' => true,
+        'postcode' => true,
         'loc_lat' => true,
         'loc_lng' => true,
         'U91' => true,

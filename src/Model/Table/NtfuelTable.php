@@ -60,7 +60,8 @@ class NtfuelTable extends Table
             ->allowEmptyString('brand');
 
         $validator
-            ->integer('code')
+            ->scalar('code')
+            ->maxLength('code', 15)
             ->allowEmptyString('code')
             ->add('code', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
@@ -83,6 +84,11 @@ class NtfuelTable extends Table
             ->scalar('state')
             ->maxLength('state', 45)
             ->allowEmptyString('state');
+
+        $validator
+            ->scalar('postcode')
+            ->maxLength('postcode', 6)
+            ->allowEmptyString('postcode');
 
         $validator
             ->numeric('loc_lat')

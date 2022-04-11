@@ -80,6 +80,11 @@ class WafuelTable extends Table
             ->allowEmptyString('state');
 
         $validator
+            ->scalar('postcode')
+            ->maxLength('postcode', 6)
+            ->allowEmptyString('postcode');
+
+        $validator
             ->numeric('loc_lat')
             ->allowEmptyString('loc_lat');
 
