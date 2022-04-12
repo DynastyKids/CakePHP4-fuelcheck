@@ -22,14 +22,14 @@ class FuelController extends AppController
     public function index($key=null)
     {
         $this->autoRender=false;
-        $nswresults = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20']);
-        $tasresults = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand','name','address','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85']);
-        $waresults = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand','name','address','loc_lat','loc_lng','U91','P95','P98','DL','PDL','LPG','E85','LAF']);
-        $ntresults = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand','name','address','suburb','state','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20','LAF']);
-        $qldresults = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand','name','address','suburb','state','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20','LAF']);
-        $saresults = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand','name','address','suburb','state','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20','LAF']);
-        $vicresults = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand','name','address','suburb','state','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20']);
-        $actresults = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand','name','address','suburb','state','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20']);
+        $nswresults = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20']);
+        $tasresults = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85']);
+        $waresults = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','P95','P98','DL','PDL','LPG','E85','LAF']);
+        $ntresults = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20','LAF']);
+        $qldresults = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20','LAF']);
+        $saresults = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20','LAF']);
+        $vicresults = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20']);
+        $actresults = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20']);
 
         $allresults = json_encode(['Status'=>'00','NSW'=>$nswresults->toArray(),'TAS'=>$tasresults->toArray(),'WA'=>$waresults->toArray(),'NT'=>$ntresults->toArray(),'QLD'=>$qldresults->toArray(),'SA'=>$saresults->toArray(),'VIC'=>$vicresults->toArray(),'ACT'=>$actresults->toArray()]);
 
