@@ -60,7 +60,8 @@ class SafuelTable extends Table
             ->allowEmptyString('brand');
 
         $validator
-            ->integer('code')
+            ->scalar('code')
+            ->maxLength('code', 16)
             ->allowEmptyString('code')
             ->add('code', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 

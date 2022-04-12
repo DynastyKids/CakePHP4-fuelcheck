@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string|null $brand
- * @property int|null $code
+ * @property string|null $code
  * @property string|null $name
  * @property string|null $address
  * @property string|null $suburb

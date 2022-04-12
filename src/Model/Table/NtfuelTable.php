@@ -61,7 +61,7 @@ class NtfuelTable extends Table
 
         $validator
             ->scalar('code')
-            ->maxLength('code', 15)
+            ->maxLength('code', 16)
             ->allowEmptyString('code')
             ->add('code', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 

@@ -60,7 +60,8 @@ class VicfuelTable extends Table
             ->allowEmptyString('brand');
 
         $validator
-            ->integer('code')
+            ->scalar('code')
+            ->maxLength('code', 15)
             ->allowEmptyString('code')
             ->add('code', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
