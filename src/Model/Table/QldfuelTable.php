@@ -61,7 +61,7 @@ class QldfuelTable extends Table
 
         $validator
             ->scalar('code')
-            ->maxLength('code', 16)
+            ->maxLength('code', 64)
             ->allowEmptyString('code')
             ->add('code', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 

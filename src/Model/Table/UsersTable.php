@@ -59,6 +59,10 @@ class UsersTable extends Table
             ->allowEmptyDateTime('createtime');
 
         $validator
+            ->date('expiretime')
+            ->allowEmptyDate('expiretime');
+
+        $validator
             ->scalar('userinfo')
             ->allowEmptyString('userinfo');
 
@@ -69,6 +73,7 @@ class UsersTable extends Table
 
         $validator
             ->scalar('useremail')
+            ->maxLength('useremail', 255)
             ->allowEmptyString('useremail');
 
         $validator

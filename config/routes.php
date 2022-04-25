@@ -51,15 +51,10 @@ return static function (RouteBuilder $routes) {
          * to use (in this case, templates/Pages/home.php)...
          */
         $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-        $builder->connect('/cheapinfo', ['controller' => 'Fuel', 'action' => 'cheapinfo']);
-        $builder->connect('/nsw', ['controller' => 'Fuel', 'action' => 'nsw']);
-        $builder->connect('/act', ['controller' => 'Fuel', 'action' => 'act']);
-        $builder->connect('/qld', ['controller' => 'Fuel', 'action' => 'qld']);
-        $builder->connect('/vic', ['controller' => 'Fuel', 'action' => 'vic']);
-        $builder->connect('/nt', ['controller' => 'Fuel', 'action' => 'nt']);
-        $builder->connect('/sa', ['controller' => 'Fuel', 'action' => 'sa']);
-        $builder->connect('/wa', ['controller' => 'Fuel', 'action' => 'wa']);
-        $builder->connect('/tas', ['controller' => 'Fuel', 'action' => 'tas']);
+        $builder->connect('/data', ['controller' => 'Fuel', 'action' => 'data']);
+        $builder->connect('/cheap', ['controller' => 'Fuel', 'action' => 'cheapinfo']);
+        $builder->connect('/state/*', ['controller' => 'Fuel', 'action' => 'state']);
+
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
