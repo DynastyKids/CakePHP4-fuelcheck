@@ -66,7 +66,7 @@ class FuelController extends AppController
         } else {
             $url=$url.":".$path->getPort().$path->getPath()."?user=".$requestuser;
         }
-        $userinfo = TableRegistry::getTableLocator()->get('users')->find()->where(['expiretime'>=date("Y-m-d"),'userinfo'=>$requestuser]);
+        $userinfo = TableRegistry::getTableLocator()->get('Users')->find()->where(['expiretime'>=date("Y-m-d"),'userinfo'=>$requestuser]);
         if($userinfo->count()<1){
             throw new AccessDeniedException("Your account does not exist / has expired");
         }
@@ -148,7 +148,7 @@ class FuelController extends AppController
         } else {
             $url=$url.":".$path->getPort().$path->getPath()."?user=".$requestuser;
         }
-        $userinfo = TableRegistry::getTableLocator()->get('users')->find()->where(['expiretime'>=date("Y-m-d"),'userinfo'=>$requestuser]);
+        $userinfo = TableRegistry::getTableLocator()->get('Users')->find()->where(['expiretime'>=date("Y-m-d"),'userinfo'=>$requestuser]);
         if($userinfo->count()<1){
             throw new AccessDeniedException("Your account does not exist / has expired");
         }
@@ -293,7 +293,7 @@ class FuelController extends AppController
         } else {
             $url=$url.":".$path->getPort().$path->getPath()."?user=".$requestuser;
         }
-        $userinfo = TableRegistry::getTableLocator()->get('users')->find()->where(['expiretime'>=date("Y-m-d"),'userinfo'=>$requestuser]);
+        $userinfo = TableRegistry::getTableLocator()->get('Users')->find()->where(['expiretime'>=date("Y-m-d"),'userinfo'=>$requestuser]);
         if($userinfo->count()<1){
             throw new AccessDeniedException("Your account does not exist / has expired");
         }
