@@ -71,7 +71,6 @@ class FuelController extends AppController
             throw new AccessDeniedException("Your account does not exist / has expired");
         }
         $res = hash_hmac("sha1", $url, (date("Ymd").$userinfo->toArray()[0]['userkey']));
-        debug($res);
         if($res!= $requestkey){
             throw new AccessDeniedException("Your access path / key is incorrect");
         }
@@ -154,7 +153,6 @@ class FuelController extends AppController
             throw new AccessDeniedException("Your account does not exist / has expired");
         }
         $res = hash_hmac("sha1", $url, (date("Ymd").$userinfo->toArray()[0]['userkey']));
-        debug($res);
         if($res!= $requestkey){
             throw new AccessDeniedException("Your access path / key is incorrect");
         }
@@ -300,7 +298,6 @@ class FuelController extends AppController
             throw new AccessDeniedException("Your account does not exist / has expired");
         }
         $res = hash_hmac("sha1", $url, (date("Ymd").$userinfo->toArray()[0]['userkey']));
-        debug($res);
         if($res!= $requestkey){
             throw new AccessDeniedException("Your access path / key is incorrect");
         }
