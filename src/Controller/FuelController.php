@@ -145,7 +145,7 @@ class FuelController extends AppController
         }
         $path = $this->request->getUri();
         $url = $path->getScheme() . '://' . $path->getHost();
-        if ($path->getPort() == 80 || $path->getPort() == 443) {
+        if ($path->getPort()==null) {
             $url = $url . $path->getPath() . "?user=" . $requestuser;
         } else {
             $url = $url . ":" . $path->getPort() . $path->getPath() . "?user=" . $requestuser;
@@ -271,7 +271,7 @@ class FuelController extends AppController
         }
         $path = $this->request->getUri();
         $url = $path->getScheme() . '://' . $path->getHost();
-        if ($path->getPort() == 80 || $path->getPort() == 443) {
+        if ($path->getPort() == null) {
             $url = $url . $path->getPath() . "?user=" . $requestuser;
         } else {
             $url = $url . ":" . $path->getPort() . $path->getPath() . "?user=" . $requestuser;
