@@ -2,13 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        DynastyFuel Access
-    </title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <title>DynastyFuel Access</title>
     <?= $this->Html->meta('icon') ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/core.min.js" integrity="sha512-t8vdA86yKUE154D1VlNn78JbDkjv3HxdK/0MJDMBUXUjshuzRgET0ERp/0MAgYS+8YD9YmFwnz6+FWLz1gRZaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/hmac.min.js" integrity="sha512-tLNkZ/sTmmvq8RDIGCLU3ZzUYSixlGQxpL0X1LWFnTBdvw0SGurLkjAIh0CtG0oQ/1Yt6MaDiI8Gif05JZqEyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -33,7 +27,7 @@
 <p>You can access the API through HTTP requests, the simulator has build as follows</p>
 
 <br><br>
-The base URL is either https://fuel.danisty8.com/ or http://fuel.danisty8.com/
+The base URL is <p id="baseurl"></p>
 <input id="devid" type="text" placeholder="Input your developer id"/>
 <br><br>
 <input id="devkey" type="text" placeholder="Input your developer key"/>
@@ -42,8 +36,11 @@ The base URL is either https://fuel.danisty8.com/ or http://fuel.danisty8.com/
 <h5>Request Fuel Price:</h5>
 <p id="fuellink"></p>
 <br>
-<h5>Request Cheapest Station API:</h5>
+<h5>Request Cheapest Stations API:</h5>
 <p id="cheaplink"></p>
+<br>
+<h5>Request Cheapest Stations plain Table:</h5>
+<p id="cheaptablelink"></p>
 <br>
 <hr>
 
@@ -55,8 +52,9 @@ The base URL is either https://fuel.danisty8.com/ or http://fuel.danisty8.com/
     function myFunction() {
         var devid = document.getElementById("devid").value;
         var devkey = document.getElementById("devkey").value;
-        var fuellink=window.location.href+"data?user="+devid
-        var cheaplink=window.location.href+"cheapinfo?user="+devid
+        var fuellink = window.location.href+"data?user="+devid
+        var cheaplink = window.location.href+"cheapinfo?user="+devid
+        var cheaptable = window.location.href+"cheaptable?user="+devid
         const d2 = new Date();
         var date=String(d2.getUTCFullYear())
         if(d2.getUTCMonth()<9){
@@ -73,8 +71,12 @@ The base URL is either https://fuel.danisty8.com/ or http://fuel.danisty8.com/
         fuellink = fuellink+"&key="+requestkey
         requestkey = CryptoJS.HmacSHA1(cheaplink,date+devkey).toString()
         cheaplink = cheaplink+"&key="+requestkey
+        requestkey = CryptoJS.HmacSHA1(cheaptable,date+devkey).toString()
+        cheaptable = cheaptable+"&key="+requestkey
+        document.getElementById("baseurl").innerHTML=window.location.href
         document.getElementById("fuellink").innerHTML=fuellink
         document.getElementById("cheaplink").innerHTML=cheaplink
+        document.getElementById("cheaptablelink").innerHTML=cheaptable
     }
 </script>
 </html>
