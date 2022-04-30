@@ -24,19 +24,19 @@ class FuelController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index($key=null)
+    public function index($key = null)
     {
-        $this->autoRender=false;
-        $nswresults = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20']);
-        $tasresults = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85']);
-        $waresults = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','P95','P98','DL','PDL','LPG','E85','LAF']);
-        $ntresults = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20','LAF']);
-        $qldresults = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20','LAF']);
-        $saresults = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20','LAF']);
-        $vicresults = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20']);
-        $actresults = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20']);
+        $this->autoRender = false;
+        $nswresults = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20']);
+        $tasresults = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85']);
+        $waresults = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'LAF']);
+        $ntresults = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20', 'LAF']);
+        $qldresults = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20', 'LAF']);
+        $saresults = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20', 'LAF']);
+        $vicresults = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20']);
+        $actresults = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20']);
 
-        $allresults = json_encode(['Status'=>'01','Info'=>"This access entry will be disabled after 2022/May/01",'NSW'=>$nswresults->toArray(),'TAS'=>$tasresults->toArray(),'WA'=>$waresults->toArray(),'NT'=>$ntresults->toArray(),'QLD'=>$qldresults->toArray(),'SA'=>$saresults->toArray(),'VIC'=>$vicresults->toArray(),'ACT'=>$actresults->toArray()]);
+        $allresults = json_encode(['Status' => '01', 'Info' => "This access entry will be disabled after 2022/May/01", 'NSW' => $nswresults->toArray(), 'TAS' => $tasresults->toArray(), 'WA' => $waresults->toArray(), 'NT' => $ntresults->toArray(), 'QLD' => $qldresults->toArray(), 'SA' => $saresults->toArray(), 'VIC' => $vicresults->toArray(), 'ACT' => $actresults->toArray()]);
 
         $this->response = $this->response->cors($this->request)->allowOrigin(['*'])->allowMethods(['GET'])->allowCredentials()->maxAge(1500)->build();
         return $this->response->withType("application/json")->withStringBody($allresults);
@@ -54,221 +54,203 @@ class FuelController extends AppController
     public function data()
     {
         // Universal Access privilege verify
-        $requestuser=$this->request->getQuery('user');
-        $requestkey=$this->request->getQuery('key');
-        if ($this->request->getQuery('user') == null || $this->request->getQuery('key') == null){
+        $requestuser = $this->request->getQuery('user');
+        $requestkey = $this->request->getQuery('key');
+        if ($this->request->getQuery('user') == null || $this->request->getQuery('key') == null) {
             throw new AccessDeniedException("Missing username / key query");
         }
-        $path=$this->request->getUri();
-        $url=$path->getScheme().'://'.$path->getHost();
-        if($path->getPort() == null){
-            $url=$url.$path->getPath()."?user=".$requestuser;
+        $path = $this->request->getUri();
+        $url = $path->getScheme() . '://' . $path->getHost();
+        if ($path->getPort() == null) {
+            $url = $url . $path->getPath() . "?user=" . $requestuser;
         } else {
-            $url=$url.":".$path->getPort().$path->getPath()."?user=".$requestuser;
+            $url = $url . ":" . $path->getPort() . $path->getPath() . "?user=" . $requestuser;
         }
-        $userinfo = TableRegistry::getTableLocator()->get('Users')->find()->where(['expiretime'>=date("Y-m-d"),'userinfo'=>$requestuser]);
-        if($userinfo->count()<1){
+        $userinfo = TableRegistry::getTableLocator()->get('Users')->find()->where(['expiretime' >= date("Y-m-d"), 'userinfo' => $requestuser]);
+        if ($userinfo->count() < 1) {
             throw new AccessDeniedException("Your account does not exist / has expired");
         }
-        $res = hash_hmac("sha1", $url, (date("Ymd").$userinfo->toArray()[0]['userkey']));
-        if($res!= $requestkey){
+        $res = hash_hmac("sha1", $url, (date("Ymd") . $userinfo->toArray()[0]['userkey']));
+        if ($res != $requestkey) {
             throw new AccessDeniedException("Your access path / key is incorrect");
         }
         // End of verify
 
         // Check if user have corresponding state key right
-        $resultdata=[];
-        $nswdata=TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20']);
-        $tasresult=TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85']);
-        $waresult=TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','P95','P98','DL','PDL','LPG','E85','LAF']);
-        $ntresult=TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20','LAF']);
-        $qldresult=TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20','LAF']);
-        $saresult=TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand','name','address','suburb','state','postcode','loc_lat','loc_lng','U91','E10','P95','P98','DL','PDL','LPG','E85','B20','LAF']);
-        $vicresult=TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20']);
-        $actresult=TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20']);
-        if($userinfo->toArray()[0]['NSW']){
-            array_push($resultdata,$nswdata->toArray());
-        }else{
-            array_push($resultdata,[]);
+        $resultdata = [];
+        $nswdata = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20']);
+        $tasresult = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85']);
+        $waresult = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'LAF']);
+        $ntresult = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20', 'LAF']);
+        $qldresult = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20', 'LAF']);
+        $saresult = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20', 'LAF']);
+        $vicresult = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20']);
+        $actresult = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand', 'name', 'address', 'suburb', 'state', 'postcode', 'loc_lat', 'loc_lng', 'U91', 'E10', 'P95', 'P98', 'DL', 'PDL', 'LPG', 'E85', 'B20']);
+        if ($userinfo->toArray()[0]['NSW']) {
+            array_push($resultdata, $nswdata->toArray());
+        } else {
+            array_push($resultdata, []);
         }
-        if($userinfo->toArray()[0]['TAS']) {
-            array_push($resultdata,$tasresult->toArray());
-        }else{
-            array_push($resultdata,[]);
+        if ($userinfo->toArray()[0]['TAS']) {
+            array_push($resultdata, $tasresult->toArray());
+        } else {
+            array_push($resultdata, []);
         }
-        if($userinfo->toArray()[0]['WA']){
-            array_push($resultdata,$waresult->toArray());
-        }else{
-            array_push($resultdata,[]);
+        if ($userinfo->toArray()[0]['WA']) {
+            array_push($resultdata, $waresult->toArray());
+        } else {
+            array_push($resultdata, []);
         }
-        if($userinfo->toArray()[0]['NT']){
-            array_push($resultdata,$ntresult->toArray());
-        }else{
-            array_push($resultdata,[]);
+        if ($userinfo->toArray()[0]['NT']) {
+            array_push($resultdata, $ntresult->toArray());
+        } else {
+            array_push($resultdata, []);
         }
-        if($userinfo->toArray()[0]['QLD']){
-            array_push($resultdata,$qldresult->toArray());
-        }else{
-            array_push($resultdata,[]);
+        if ($userinfo->toArray()[0]['QLD']) {
+            array_push($resultdata, $qldresult->toArray());
+        } else {
+            array_push($resultdata, []);
         }
-        if($userinfo->toArray()[0]['SA']){
-            array_push($resultdata,$saresult->toArray());
-        }else{
-            array_push($resultdata,[]);
+        if ($userinfo->toArray()[0]['SA']) {
+            array_push($resultdata, $saresult->toArray());
+        } else {
+            array_push($resultdata, []);
         }
-        if($userinfo->toArray()[0]['VIC']) {
-            array_push($resultdata,$vicresult->toArray());
-        }else{
-            array_push($resultdata,[]);
+        if ($userinfo->toArray()[0]['VIC']) {
+            array_push($resultdata, $vicresult->toArray());
+        } else {
+            array_push($resultdata, []);
         }
-        if($userinfo->toArray()[0]['ACT']) {
-            array_push($resultdata,$actresult->toArray());
-        }else{
-            array_push($resultdata,[]);
+        if ($userinfo->toArray()[0]['ACT']) {
+            array_push($resultdata, $actresult->toArray());
+        } else {
+            array_push($resultdata, []);
         }
-        $allresults = json_encode(['Status'=>'00','NSW'=>$resultdata[0],'TAS'=>$resultdata[1],'WA'=>$resultdata[2],'NT'=>$resultdata[3],'QLD'=>$resultdata[4],
-            'SA'=>$resultdata[5],'VIC'=>$resultdata[6],'ACT'=>$resultdata[7]]);
+        $allresults = json_encode(['Status' => '00', 'NSW' => $resultdata[0], 'TAS' => $resultdata[1], 'WA' => $resultdata[2], 'NT' => $resultdata[3], 'QLD' => $resultdata[4],
+            'SA' => $resultdata[5], 'VIC' => $resultdata[6], 'ACT' => $resultdata[7]]);
 
-        $this->autoRender=false;
+        $this->autoRender = false;
         $this->response = $this->response->cors($this->request)->allowOrigin(['*'])->allowMethods(['GET'])->allowCredentials()->maxAge(1500)->build();
         return $this->response->withType("application/json")->withStringBody($allresults);
     }
 
 
-    public function cheapinfo(){
+    public function cheapinfo()
+    {
         // Universal Access privilege verify
-        $requestuser=$this->request->getQuery('user');
-        $requestkey=$this->request->getQuery('key');
-        if ($this->request->getQuery('user') == null || $this->request->getQuery('key') == null){
+        $requestuser = $this->request->getQuery('user');
+        $requestkey = $this->request->getQuery('key');
+        if ($this->request->getQuery('user') == null || $this->request->getQuery('key') == null) {
             throw new AccessDeniedException("Missing username / key query");
         }
-        $path=$this->request->getUri();
-        $url=$path->getScheme().'://'.$path->getHost();
-        if($path->getPort() == 80 || $path->getPort() ==443){
-            $url=$url.$path->getPath()."?user=".$requestuser;
+        $path = $this->request->getUri();
+        $url = $path->getScheme() . '://' . $path->getHost();
+        if ($path->getPort() == 80 || $path->getPort() == 443) {
+            $url = $url . $path->getPath() . "?user=" . $requestuser;
         } else {
-            $url=$url.":".$path->getPort().$path->getPath()."?user=".$requestuser;
+            $url = $url . ":" . $path->getPort() . $path->getPath() . "?user=" . $requestuser;
         }
-        $userinfo = TableRegistry::getTableLocator()->get('Users')->find()->where(['expiretime'>=date("Y-m-d"),'userinfo'=>$requestuser]);
-        if($userinfo->count()<1){
+        $userinfo = TableRegistry::getTableLocator()->get('Users')->find()->where(['expiretime' >= date("Y-m-d"), 'userinfo' => $requestuser]);
+        if ($userinfo->count() < 1) {
             throw new AccessDeniedException("Your account does not exist / has expired");
         }
-        $res = hash_hmac("sha1", $url, (date("Ymd").$userinfo->toArray()[0]['userkey']));
-        if($res!= $requestkey){
+        $res = hash_hmac("sha1", $url, (date("Ymd") . $userinfo->toArray()[0]['userkey']));
+        if ($res != $requestkey) {
             throw new AccessDeniedException("Your access path / key is incorrect");
         }
         // End of verify
 
-        $this->autoRender=false;
-        $nswcluster=$tascluster=$wacluster=$sacluster=$ntcluster=$qldcluster=$viccluster=$actcluster=[];
+        $this->autoRender = false;
+        $nswcluster = $tascluster = $wacluster = $sacluster = $ntcluster = $qldcluster = $viccluster = $actcluster = [];
 
-        if ($userinfo->toArray()[0]['NSW']>0) {
-            $nswTable = TableRegistry::getTableLocator()->get('Nswfuel')->find();
-            if ($nswTable->count() > 0) {
-                $U91 = $nswTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
-                $E10 = $nswTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
-                $P95 = $nswTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
-                $P98 = $nswTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
-                $LPG = $nswTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
-                $DL = $nswTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
-                $PDL = $nswTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
-                $nswcluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
-            }
+        if ($userinfo->toArray()[0]['NSW'] > 0) {
+            $U91 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
+            $E10 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
+            $P95 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
+            $P98 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
+            $LPG = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
+            $DL = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
+            $PDL = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
+            $nswcluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
         }
-        if ($userinfo->toArray()[0]['TAS']>0) {
-            $tasTable = TableRegistry::getTableLocator()->get('Tasfuel')->find();
-            if ($tasTable->count() > 0) {
-                $U91 = $tasTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
-                $E10 = $tasTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
-                $P95 = $tasTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
-                $P98 = $tasTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
-                $LPG = $tasTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
-                $DL = $tasTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
-                $PDL = $tasTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
-            }
+        if ($userinfo->toArray()[0]['TAS'] > 0) {
+            $U91 = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
+            $E10 = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
+            $P95 = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
+            $P98 = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
+            $LPG = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
+            $DL = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
+            $PDL = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
             $tascluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
         }
-        if ($userinfo->toArray()[0]['WA']>0) {
-            $waTable = TableRegistry::getTableLocator()->get('Wafuel')->find();
-            if ($waTable->count() > 0) {
-                $U91 = $waTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
-                $E10 = $waTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
-                $P95 = $waTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
-                $P98 = $waTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
-                $LPG = $waTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
-                $DL = $waTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
-                $PDL = $waTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
-            }
-            $wacluster=['U91'=>$U91,'P95'=>$P95,'P98'=>$P98,'DL'=>$DL,'PDL'=>$PDL,'LPG'=>$LPG];
+        if ($userinfo->toArray()[0]['WA'] > 0) {
+            $U91 = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
+            $E10 = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
+            $P95 = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
+            $P98 = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
+            $LPG = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
+            $DL = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
+            $PDL = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
+            $wacluster = ['U91' => $U91, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
         }
-        if ($userinfo->toArray()[0]['SA']>0) {
-            $lookupTable = TableRegistry::getTableLocator()->get('Safuel')->find();
-            if ($lookupTable->count() > 0) {
-                $U91 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
-                $E10 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
-                $P95 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
-                $P98 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
-                $LPG = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
-                $DL = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
-                $PDL = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
-            }
-            $sacluster=['U91'=>$U91,'E10'=>$E10,'P95'=>$P95,'P98'=>$P98,'DL'=>$DL,'PDL'=>$PDL,'LPG'=>$LPG];
+        if ($userinfo->toArray()[0]['SA'] > 0) {
+            $U91 = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
+            $E10 = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
+            $P95 = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
+            $P98 = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
+            $LPG = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
+            $DL = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
+            $PDL = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
+
+            $sacluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
         }
-        if ($userinfo->toArray()[0]['NT']>0) {
-            $ntTable = TableRegistry::getTableLocator()->get('Ntfuel')->find();
-            if ($ntTable->count() > 0) {
-                $U91 = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
-                $E10 = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
-                $P95 = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
-                $P98 = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
-                $LPG = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
-                $DL = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
-                $PDL = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
-                $LAF = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LAF'])->where(['LAF IS NOT NULL'])->orderAsc('LAF')->limit(3)->toArray();
-            }
-            $ntcluster=['U91'=>$U91,'E10'=>$E10,'P95'=>$P95,'P98'=>$P98,'DL'=>$DL,'PDL'=>$PDL,'LPG'=>$LPG,'LAF'=>$LAF];
+        if ($userinfo->toArray()[0]['NT'] > 0) {
+            $U91 = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
+            $E10 = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
+            $P95 = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
+            $P98 = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
+            $LPG = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
+            $DL = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
+            $PDL = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
+            $LAF = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LAF'])->where(['LAF IS NOT NULL'])->orderAsc('LAF')->limit(3)->toArray();
+
+            $ntcluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG, 'LAF' => $LAF];
         }
-        if ($userinfo->toArray()[0]['QLD']>0) {
-            $lookupTable = TableRegistry::getTableLocator()->get('Qldfuel')->find();
-            if ($lookupTable->count() > 0) {
-                $U91 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
-                $E10 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
-                $P95 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
-                $P98 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
-                $LPG = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
-                $DL = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
-                $PDL = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
-            }
-            $qldcluster=['U91'=>$U91,'E10'=>$E10,'P95'=>$P95,'P98'=>$P98,'DL'=>$DL,'PDL'=>$PDL,'LPG'=>$LPG];
+        if ($userinfo->toArray()[0]['QLD'] > 0) {
+            $U91 = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
+            $E10 = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
+            $P95 = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
+            $P98 = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
+            $LPG = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
+            $DL = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
+            $PDL = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
+
+            $qldcluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
         }
-        if ($userinfo->toArray()[0]['VIC']>0) {
-            $lookupTable = TableRegistry::getTableLocator()->get('Vicfuel')->find();
-            if ($lookupTable->count() > 0) {
-                $U91 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
-                $E10 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
-                $P95 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
-                $P98 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
-                $LPG = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
-                $DL = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
-                $PDL = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
-            }
-            $viccluster=['U91'=>$U91,'E10'=>$E10,'P95'=>$P95,'P98'=>$P98,'DL'=>$DL,'PDL'=>$PDL,'LPG'=>$LPG];
+        if ($userinfo->toArray()[0]['VIC'] > 0) {
+            $U91 = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
+            $E10 = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
+            $P95 = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
+            $P98 = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
+            $LPG = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
+            $DL = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
+            $PDL = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
+
+            $viccluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
         }
-        if ($userinfo->toArray()[0]['ACT']>0) {
-            $lookupTable = TableRegistry::getTableLocator()->get('Actfuel')->find();
-            if ($lookupTable->count() > 0) {
-                $U91 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
-                $E10 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
-                $P95 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
-                $P98 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
-                $LPG = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
-                $DL = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
-                $PDL = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
-            }
-            $actcluster=['U91'=>$U91,'E10'=>$E10,'P95'=>$P95,'P98'=>$P98,'DL'=>$DL,'PDL'=>$PDL,'LPG'=>$LPG];
+        if ($userinfo->toArray()[0]['ACT'] > 0) {
+            $U91 = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
+            $E10 = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
+            $P95 = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
+            $P98 = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(5)->toArray();
+            $LPG = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(5)->toArray();
+            $DL = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(5)->toArray();
+            $PDL = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(5)->toArray();
+
+            $actcluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
         }
 
-        $allresults = json_encode(['Status'=>'00', 'NSW'=>$nswcluster, 'TAS'=>$tascluster,'NT'=>$ntcluster,'SA'=>$sacluster, 'WA'=>$wacluster,'QLD'=>$qldcluster,'VIC'=>$viccluster,'ACT'=>$actcluster]);
+        $allresults = json_encode(['Status' => '00', 'NSW' => $nswcluster, 'TAS' => $tascluster, 'NT' => $ntcluster, 'SA' => $sacluster, 'WA' => $wacluster, 'QLD' => $qldcluster, 'VIC' => $viccluster, 'ACT' => $actcluster]);
 
         $this->response = $this->response->cors($this->request)->allowOrigin(['*'])->allowMethods(['GET'])->allowCredentials()->maxAge(900)->build();
         return $this->response->withType("application/json")->withStringBody($allresults);
@@ -279,35 +261,35 @@ class FuelController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function state($state=null)
+    public function state($state = null)
     {
         // Universal Access privilege verify
-        $requestuser=$this->request->getQuery('user');
-        $requestkey=$this->request->getQuery('key');
-        if ($this->request->getQuery('user') == null || $this->request->getQuery('key') == null){
+        $requestuser = $this->request->getQuery('user');
+        $requestkey = $this->request->getQuery('key');
+        if ($this->request->getQuery('user') == null || $this->request->getQuery('key') == null) {
             throw new AccessDeniedException("Missing username / key query");
         }
-        $path=$this->request->getUri();
-        $url=$path->getScheme().'://'.$path->getHost();
-        if($path->getPort() == 80 || $path->getPort() ==443){
-            $url=$url.$path->getPath()."?user=".$requestuser;
+        $path = $this->request->getUri();
+        $url = $path->getScheme() . '://' . $path->getHost();
+        if ($path->getPort() == 80 || $path->getPort() == 443) {
+            $url = $url . $path->getPath() . "?user=" . $requestuser;
         } else {
-            $url=$url.":".$path->getPort().$path->getPath()."?user=".$requestuser;
+            $url = $url . ":" . $path->getPort() . $path->getPath() . "?user=" . $requestuser;
         }
-        $userinfo = TableRegistry::getTableLocator()->get('Users')->find()->where(['expiretime'>=date("Y-m-d"),'userinfo'=>$requestuser]);
-        if($userinfo->count()<1){
+        $userinfo = TableRegistry::getTableLocator()->get('Users')->find()->where(['expiretime' >= date("Y-m-d"), 'userinfo' => $requestuser]);
+        if ($userinfo->count() < 1) {
             throw new AccessDeniedException("Your account does not exist / has expired");
         }
-        $res = hash_hmac("sha1", $url, (date("Ymd").$userinfo->toArray()[0]['userkey']));
-        if($res!= $requestkey){
+        $res = hash_hmac("sha1", $url, (date("Ymd") . $userinfo->toArray()[0]['userkey']));
+        if ($res != $requestkey) {
             throw new AccessDeniedException("Your access path / key is incorrect");
         }
         // End of verify
 
-        $this->autoRender=false;
-        $stateList = ['QLD','NSW','ACT','VIC','TAS','SA','NT','WA'];
-        if(in_array($state,$stateList)){
-            if ($userinfo->toArray()[0][$state]<1){
+        $this->autoRender = false;
+        $stateList = ['QLD', 'NSW', 'ACT', 'VIC', 'TAS', 'SA', 'NT', 'WA'];
+        if (in_array($state, $stateList)) {
+            if ($userinfo->toArray()[0][$state] < 1) {
                 throw new AccessDeniedException("You accound has no privilege to access this data");
             }
             $state = ucfirst(strtolower($state));
