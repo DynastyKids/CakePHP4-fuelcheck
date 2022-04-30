@@ -134,6 +134,7 @@ class FuelController extends AppController
         return $this->response->withType("application/json")->withStringBody($allresults);
     }
 
+
     public function cheapinfo(){
         // Universal Access privilege verify
         $requestuser=$this->request->getQuery('user');
@@ -176,7 +177,7 @@ class FuelController extends AppController
         }
         if ($userinfo->toArray()[0]['TAS']>0) {
             $tasTable = TableRegistry::getTableLocator()->get('Tasfuel')->find();
-            if ($tasTable->find()->count() > 0) {
+            if ($tasTable->count() > 0) {
                 $U91 = $tasTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
                 $E10 = $tasTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
                 $P95 = $tasTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
@@ -189,7 +190,7 @@ class FuelController extends AppController
         }
         if ($userinfo->toArray()[0]['WA']>0) {
             $waTable = TableRegistry::getTableLocator()->get('Wafuel')->find();
-            if ($waTable->find()->count() > 0) {
+            if ($waTable->count() > 0) {
                 $U91 = $waTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
                 $E10 = $waTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
                 $P95 = $waTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
@@ -202,7 +203,7 @@ class FuelController extends AppController
         }
         if ($userinfo->toArray()[0]['SA']>0) {
             $lookupTable = TableRegistry::getTableLocator()->get('Safuel')->find();
-            if ($lookupTable->find()->count() > 0) {
+            if ($lookupTable->count() > 0) {
                 $U91 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
                 $E10 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
                 $P95 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
@@ -215,21 +216,21 @@ class FuelController extends AppController
         }
         if ($userinfo->toArray()[0]['NT']>0) {
             $ntTable = TableRegistry::getTableLocator()->get('Ntfuel')->find();
-            if ($ntTable->find()->count() > 0) {
+            if ($ntTable->count() > 0) {
                 $U91 = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
                 $E10 = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
                 $P95 = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
                 $P98 = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
-                $LAF = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LAF'])->where(['LAF IS NOT NULL'])->orderAsc('LAF')->limit(3)->toArray();
                 $LPG = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
                 $DL = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
                 $PDL = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
+                $LAF = $ntTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'LAF'])->where(['LAF IS NOT NULL'])->orderAsc('LAF')->limit(3)->toArray();
             }
             $ntcluster=['U91'=>$U91,'E10'=>$E10,'P95'=>$P95,'P98'=>$P98,'DL'=>$DL,'PDL'=>$PDL,'LPG'=>$LPG,'LAF'=>$LAF];
         }
         if ($userinfo->toArray()[0]['QLD']>0) {
             $lookupTable = TableRegistry::getTableLocator()->get('Qldfuel')->find();
-            if ($lookupTable->find()->count() > 0) {
+            if ($lookupTable->count() > 0) {
                 $U91 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
                 $E10 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
                 $P95 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
@@ -242,7 +243,7 @@ class FuelController extends AppController
         }
         if ($userinfo->toArray()[0]['VIC']>0) {
             $lookupTable = TableRegistry::getTableLocator()->get('Vicfuel')->find();
-            if ($lookupTable->find()->count() > 0) {
+            if ($lookupTable->count() > 0) {
                 $U91 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
                 $E10 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
                 $P95 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();
@@ -255,7 +256,7 @@ class FuelController extends AppController
         }
         if ($userinfo->toArray()[0]['ACT']>0) {
             $lookupTable = TableRegistry::getTableLocator()->get('Actfuel')->find();
-            if ($lookupTable->find()->count() > 0) {
+            if ($lookupTable->count() > 0) {
                 $U91 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(5)->toArray();
                 $E10 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(5)->toArray();
                 $P95 = $lookupTable->select(['brand', 'name', 'address', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(5)->toArray();

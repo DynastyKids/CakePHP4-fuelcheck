@@ -14,12 +14,14 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Core\Configure;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
+use Cake\ORM\TableRegistry;
 use Cake\View\Exception\MissingTemplateException;
 
 /**
@@ -69,5 +71,87 @@ class PagesController extends AppController
             }
             throw new NotFoundException();
         }
+    }
+
+
+    public function home()
+    {
+        $U91 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
+        $E10 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
+        $P95 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
+        $P98 = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
+        $LPG = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
+        $DL = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
+        $PDL = TableRegistry::getTableLocator()->get('Nswfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
+        $nswcluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
+
+        $U91 = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
+        $E10 = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
+        $P95 = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
+        $P98 = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
+        $LPG = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
+        $DL = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
+        $PDL = TableRegistry::getTableLocator()->get('Tasfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
+        $tascluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
+
+        $U91 = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
+        $E10 = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
+        $P95 = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
+        $P98 = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
+        $LPG = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
+        $DL = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
+        $PDL = TableRegistry::getTableLocator()->get('Wafuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
+        $wacluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
+
+        $U91 = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
+        $E10 = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
+        $P95 = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
+        $P98 = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
+        $LPG = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
+        $DL = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
+        $PDL = TableRegistry::getTableLocator()->get('Safuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
+        $sacluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
+
+        $U91 = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
+        $E10 = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
+        $P95 = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
+        $P98 = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
+        $LPG = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
+        $DL = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
+        $PDL = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
+        $LAF = TableRegistry::getTableLocator()->get('Ntfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'LAF'])->where(['LAF IS NOT NULL'])->orderAsc('LAF')->limit(3)->toArray();
+        $ntcluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG, 'LAF' => $LAF];
+
+        $U91 = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
+        $E10 = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
+        $P95 = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
+        $P98 = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
+        $LPG = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
+        $DL = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
+        $PDL = TableRegistry::getTableLocator()->get('Qldfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
+        $qldcluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
+
+
+        $U91 = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
+        $E10 = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
+        $P95 = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
+        $P98 = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
+        $LPG = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
+        $DL = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
+        $PDL = TableRegistry::getTableLocator()->get('Vicfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
+        $viccluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
+
+
+        $U91 = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'U91'])->where(['U91 IS NOT NULL'])->orderAsc('U91')->limit(3)->toArray();
+        $E10 = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'E10'])->where(['E10 IS NOT NULL'])->orderAsc('E10')->limit(3)->toArray();
+        $P95 = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P95'])->where(['P95 IS NOT NULL'])->orderAsc('P95')->limit(3)->toArray();
+        $P98 = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'P98'])->where(['P98 IS NOT NULL'])->orderAsc('P98')->limit(3)->toArray();
+        $LPG = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'LPG'])->where(['LPG IS NOT NULL'])->orderAsc('LPG')->limit(3)->toArray();
+        $DL = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'DL'])->where(['DL IS NOT NULL'])->orderAsc('DL')->limit(3)->toArray();
+        $PDL = TableRegistry::getTableLocator()->get('Actfuel')->find()->select(['name', 'loc_lat', 'loc_lng', 'PDL'])->where(['PDL IS NOT NULL'])->orderAsc('PDL')->limit(3)->toArray();
+        $actcluster = ['U91' => $U91, 'E10' => $E10, 'P95' => $P95, 'P98' => $P98, 'DL' => $DL, 'PDL' => $PDL, 'LPG' => $LPG];
+
+        $allresults = ['NSW' => $nswcluster, 'TAS' => $tascluster, 'NT' => $ntcluster, 'SA' => $sacluster, 'WA' => $wacluster, 'QLD' => $qldcluster, 'VIC' => $viccluster, 'ACT' => $actcluster];
+        $this->set(compact('allresults'));
     }
 }
