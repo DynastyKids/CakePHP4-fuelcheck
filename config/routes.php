@@ -52,7 +52,7 @@ return static function (RouteBuilder $routes) {
          */
         $builder->connect('/', ['controller' => 'Pages', 'action' => 'home']);
         $builder->connect('/data', ['controller' => 'Fuel', 'action' => 'data']);
-        $builder->connect('/cheap', ['controller' => 'Fuel', 'action' => 'cheapinfo']);
+        $builder->connect('/cheapinfo', ['controller' => 'Fuel', 'action' => 'cheapinfo']);
         $builder->connect('/state/*', ['controller' => 'Fuel', 'action' => 'state']);
 
 

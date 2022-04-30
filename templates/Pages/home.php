@@ -56,7 +56,7 @@ The base URL is either https://fuel.danisty8.com/ or http://fuel.danisty8.com/
         var devid = document.getElementById("devid").value;
         var devkey = document.getElementById("devkey").value;
         var fuellink=window.location.href+"data?user="+devid
-        var cheaplink=window.location.href+"cheap?user="+devid
+        var cheaplink=window.location.href+"cheapinfo?user="+devid
         const d2 = new Date();
         var date=String(d2.getUTCFullYear())
         if(d2.getUTCMonth()<9){
