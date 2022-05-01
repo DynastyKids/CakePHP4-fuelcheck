@@ -142,6 +142,7 @@ The base URL is <p id="baseurl"></p>
     Page was accessed on <?= date('Y-m-d H:i:s')?>
 </footer>
 </body>
+<script>document.getElementById("baseurl").innerHTML=window.location.href</script>
 <script>
     function myFunction() {
         var devid = document.getElementById("devid").value;
