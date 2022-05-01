@@ -11,9 +11,9 @@
 </head>
 
 <body>
-<h1>Aus Fuel Pump Price Cluster API - Version 1</h1>
+<h1>DynastyFuel Pump lookup - Version 1</h1>
 <hr>
-<p>Current Cheapest station for each state</p>
+<p>Table below is showing current cheapest station for each state</p>
 <small>* Currently ACT and VIC only having limited stations data</small>
 <div class="container">
     <?php $statenames = ['QLD', 'VIC', 'ACT', 'TAS', 'SA', 'NT', 'WA'];?>
@@ -58,7 +58,6 @@
                             </tr>
                         <?php } ?>
                         </tbody>
-
                     <?php }?>
                 <?php } ?>
             </table>
@@ -108,7 +107,12 @@
         <?php } ?>
     </div>
 </div>
-
+<small>Some of data are provided by Data.NSW, NT Fuel check, WA Fuelwatch etc.</small>
+<small>Disclaimer: The information provided by DynastyFUel ('we', 'us' or 'our') on this website is for
+    general information purposes. All information are provided in good faith but not representation in
+    any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability
+    or completeness of any information holding on this Site.
+</small>
 <hr>
 <h2>API Accessing information - Version 1</h2>
 <p>The fuel pump price API provides direct access to pump data for all over australia exclude VIC and ACT area.</p>
