@@ -108,6 +108,7 @@
     </div>
 </div>
 <small>Some of data are provided by Data.NSW, NT Fuel check, WA Fuelwatch etc.</small>
+<br>
 <small>Disclaimer: The information provided by DynastyFUel ('we', 'us' or 'our') on this website is for
     general information purposes. All information are provided in good faith but not representation in
     any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability
@@ -163,7 +164,6 @@ The base URL is <p id="baseurl"></p>
         fuellink = fuellink+"&key="+requestkey
         requestkey = CryptoJS.HmacSHA1(cheaplink,date+devkey).toString()
         cheaplink = cheaplink+"&key="+requestkey
-        requestkey = CryptoJS.HmacSHA1(cheaptable,date+devkey).toString()
         document.getElementById("baseurl").innerHTML=window.location.href
         document.getElementById("fuellink").innerHTML=fuellink
         document.getElementById("cheaplink").innerHTML=cheaplink
