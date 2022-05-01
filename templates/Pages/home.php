@@ -13,9 +13,101 @@
 <body>
 <h1>Aus Fuel Pump Price Cluster API - Version 1</h1>
 <hr>
-<!--<p>Current Cheapest 5 station across each state</p>-->
-<!--<small>* Currently ACT and VIC only having limited stations data</small>-->
+<p>Current Cheapest station for each state</p>
+<small>* Currently ACT and VIC only having limited stations data</small>
+<div class="container">
+    <?php $statenames = ['QLD', 'VIC', 'ACT', 'TAS', 'SA', 'NT', 'WA'];?>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-NSW-tab" data-bs-toggle="tab" data-bs-target="#nav-NSW" type="button" role="tab" aria-controls="nav-NSW" aria-selected="true">NSW</button>
+            <?php foreach ($allresults as $statename => $eachstate) { ?>
+                <?php if (in_array($statename, $statenames)) { ?>
+                    <button class="nav-link" id="nav-<?= $statename?>-tab" data-bs-toggle="tab" data-bs-target="#nav-<?= $statename?>" type="button" role="tab" aria-controls="nav-<?= $statename?>" aria-selected="false"><?= $statename?></button>
+                <?php }?>
+            <?php }?>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-NSW" role="tabpanel" aria-labelledby="nav-NSW-tab">
+            <table class="table table-hover table-sm">
+                <thead><tr>
+                    <th scope="col" colspan="1">Fuel Type</th>
+                    <th scope="col" colspan="1">Sequence</th>
+                    <th scope="col" colspan="2">Station Name</th>
+                    <th scope="col" colspan="1">Price</th>
+                    <th scope="col" colspan="4">Address</th>
+                </tr></thead>
+                <?php foreach ($nswcluster as $fueltype => $eachFuel) { ?>
+                    <?php if(sizeof($eachFuel) > 0){?>
+                        <tbody>
+                        <?php foreach ($eachFuel as $key => $eachstation) { ?>
+                            <tr>
+                                <td colspan="1"><?php
+                                    if($fueltype=='DL'){echo "Diesel";}
+                                    else if($fueltype=='PDL'){echo "Premium Diesel";}
+                                    else if($fueltype=='U91'||$fueltype=='P95'||$fueltype=='P98'){
+                                        echo "Unleaded ".substr($fueltype,1);
+                                    } else {
+                                        echo $fueltype;
+                                    }
+                                    ?></td>
+                                <td colspan="1"><?= $key+1 ?></td>
+                                <td colspan="2"><?= $eachstation['name'] ?></td>
+                                <td colspan="1"><?= $eachstation[$fueltype] ?></td>
+                                <td colspan="4"><?php echo $eachstation['address']; ?></td>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
 
+                    <?php }?>
+                <?php } ?>
+            </table>
+        </div>
+
+        <!--    Rest of states-->
+        <?php foreach ($allresults as $statename => $eachstate) { ?>
+            <?php if (in_array($statename, $statenames)) { ?>
+                <div class="tab-pane fade" id="nav-<?= $statename?>" role="tabpanel" aria-labelledby="nav-<?= $statename?>-tab">
+                    <table class="table table-hover table-sm">
+                        <thead><tr>
+                            <th scope="col" colspan="1">Fuel Type</th>
+                            <th scope="col" colspan="1">Sequence</th>
+                            <th scope="col" colspan="2">Station Name</th>
+                            <th scope="col" colspan="1">Price</th>
+                            <th scope="col" colspan="4">Address</th>
+                        </tr></thead>
+                        <?php foreach ($eachstate as $fueltype => $eachFuel) { ?>
+                            <?php if(sizeof($eachFuel) > 0){?>
+                                <tbody>
+                                <?php foreach ($eachFuel as $key => $eachstation) { ?>
+                                    <tr>
+                                        <td colspan="1"><?php
+                                            if($fueltype=='DL'){echo "Diesel";}
+                                            else if($fueltype=='PDL'){echo "Premium Diesel";}
+                                            else if($fueltype=='U91'||$fueltype=='P95'||$fueltype=='P98'){
+                                                echo "Unleaded ".substr($fueltype,1);
+                                            } else {
+                                                echo $fueltype;
+                                            }
+                                            ?></td>
+                                        <td colspan="1"><?= $key+1 ?></td>
+                                        <td colspan="2"><?= $eachstation['name'] ?></td>
+                                        <td colspan="1"><?= $eachstation[$fueltype] ?></td>
+                                        <td colspan="4">
+                                            <?php if ($statename =="TAS") { echo $eachstation['address']; }
+                                            else { echo $eachstation['address'].','.$eachstation['suburb'].','.$statename.' '.$eachstation['postcode'];}
+                                            ?></td>
+                                    </tr>
+                                <?php } ?>
+                                </tbody>
+                            <?php }?>
+                        <?php } ?>
+                    </table>
+                </div>
+            <?php } ?>
+        <?php } ?>
+    </div>
+</div>
 
 <hr>
 <h2>API Accessing information - Version 1</h2>
@@ -39,9 +131,6 @@ The base URL is <p id="baseurl"></p>
 <h5>Request Cheapest Stations API:</h5>
 <p id="cheaplink"></p>
 <br>
-<h5>Request Cheapest Stations plain Table:</h5>
-<p id="cheaptablelink"></p>
-<br>
 <hr>
 
 <footer>
@@ -54,7 +143,6 @@ The base URL is <p id="baseurl"></p>
         var devkey = document.getElementById("devkey").value;
         var fuellink = window.location.href+"data?user="+devid
         var cheaplink = window.location.href+"cheapinfo?user="+devid
-        var cheaptable = window.location.href+"cheaptable?user="+devid
         const d2 = new Date();
         var date=String(d2.getUTCFullYear())
         if(d2.getUTCMonth()<9){
@@ -72,11 +160,9 @@ The base URL is <p id="baseurl"></p>
         requestkey = CryptoJS.HmacSHA1(cheaplink,date+devkey).toString()
         cheaplink = cheaplink+"&key="+requestkey
         requestkey = CryptoJS.HmacSHA1(cheaptable,date+devkey).toString()
-        cheaptable = cheaptable+"&key="+requestkey
         document.getElementById("baseurl").innerHTML=window.location.href
         document.getElementById("fuellink").innerHTML=fuellink
         document.getElementById("cheaplink").innerHTML=cheaplink
-        document.getElementById("cheaptablelink").innerHTML=cheaptable
     }
 </script>
 </html>
