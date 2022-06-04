@@ -56,6 +56,7 @@ return static function (RouteBuilder $routes) {
         $builder->connect('/cheapinfo', ['controller' => 'Info', 'action' => 'cheapinfo']);
         $builder->connect('/cheaptable', ['controller' => 'Info', 'action' => 'cheaptable']);
         $builder->connect('/state/*', ['controller' => 'Info', 'action' => 'state']);
+        $builder->connect('/development',['controller' => 'Pages', 'action' => 'dev']);
 
 
         /*
