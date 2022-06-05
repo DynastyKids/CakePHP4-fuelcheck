@@ -19,9 +19,7 @@ $this->layout = 'blank';
     </div>
 </nav>
 <div class="tab-content" id="nav-tabContent">
-    <?php foreach ($allresults
-
-    as $statename => $eachstate) { ?>
+    <?php foreach ($allresults as $statename => $eachstate) { ?>
     <?php if (in_array($statename, $statenames)) { ?>
     <?php if ($statename == 'NSW'){ ?>
     <div class="tab-pane fade show active" id="nav-<?= $statename ?>" role="tabpanel"
@@ -66,9 +64,7 @@ $this->layout = 'blank';
                     <?php } ?>
                 </div>
                 <div class="tab-content" id="v-pills-tabContent">
-                    <?php foreach ($eachstate
-
-                    as $fueltype => $eachFuel) { ?>
+                    <?php foreach ($eachstate as $fueltype => $eachFuel) { ?>
                     <?php if ($fueltype == 'U91'){ ?>
                     <div class="tab-pane fade show active" id="v-pills-<?= $fueltype . $statename ?>"
                          role="tabpanel" aria-labelledby="v-pills-<?= $fueltype . $statename ?>-tab">

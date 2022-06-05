@@ -41,13 +41,13 @@ The base URL is <p id="baseurl"></p>
     Page was accessed on <?= date('Y-m-d H:i:s')?>
 </footer>
 </body>
-<script>document.getElementById("baseurl").innerHTML=window.location.href</script>
+<script>document.getElementById("baseurl").innerHTML=window.location.origin</script>
 <script>
     function myFunction() {
         var devid = document.getElementById("devid").value;
         var devkey = document.getElementById("devkey").value;
-        var fuellink = window.location.href+"data?user="+devid
-        var cheaplink = window.location.href+"cheapinfo?user="+devid
+        var fuellink = window.location.origin+"/data?user="+devid
+        var cheaplink = window.location.origin+"/cheapinfo?user="+devid
         const d2 = new Date();
         var date=String(d2.getUTCFullYear())
         if(d2.getUTCMonth()<9){
@@ -64,7 +64,7 @@ The base URL is <p id="baseurl"></p>
         fuellink = fuellink+"&key="+requestkey
         requestkey = CryptoJS.HmacSHA1(cheaplink,date+devkey).toString()
         cheaplink = cheaplink+"&key="+requestkey
-        document.getElementById("baseurl").innerHTML=window.location.href
+        document.getElementById("baseurl").innerHTML=window.location.origin
         document.getElementById("fuellink").innerHTML=fuellink
         document.getElementById("cheaplink").innerHTML=cheaplink
     }
