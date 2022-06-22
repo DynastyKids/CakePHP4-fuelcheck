@@ -100,4 +100,26 @@ class PagesController extends AppController
     public function dev(){
         // Nothing expected from Controller.
     }
+
+    public function mapl($fueltype = null){
+        if($fueltype == null){
+            $fueltype="U91";
+        }
+        $fueltypes = ['U91','E10','P95','P98','DL','PDL','LPG'];
+        if (!in_array($fueltype, $fueltypes)){
+            // Fuel type not found
+            $fueltype="U91";
+        }
+        // Use fuel type from outside input
+        $states=["nsw","tas","wa","sa","nt","qld","vic","act"];
+        $priceinfo=[];
+        foreach ($states as $state){
+            $tablename = ucfirst($state).'fuel';
+            $resultrow = TableRegistry::getTableLocator()->get($tablename)->find('all')->select(['brand', 'name', 'address','suburb','postcode', 'loc_lat', 'loc_lng', $fueltype])->whereNotNull($fueltype)->orderAsc($fueltype)->toArray();
+            $priceinfo+=[$state=>$resultrow];
+//            debug($resultrow);
+        }
+//        debug($priceinfo);
+        $this->set(compact('fueltype','priceinfo'));
+    }
 }

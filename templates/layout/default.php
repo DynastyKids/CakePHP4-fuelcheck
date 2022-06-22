@@ -42,19 +42,23 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="<?= $this->Url->build('/') ?>">Home</a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="https://dynastykids.github.io/React-FuelCheck/">MapView</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl'])?>">MapView - leaflet</a></li>
-<!--                <li class="nav-item dropdown">-->
-<!--                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                        Fuel Types-->
-<!--                    </a>-->
-<!--                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                        <li><a class="dropdown-item" href="#">Action</a></li>-->
-<!--                        <li><a class="dropdown-item" href="https://dynastykids.github.io/React-FuelCheck/">MapView</a></li>-->
-<!--                        <li><hr class="dropdown-divider"></li>-->
-<!--                        <li><a class="dropdown-item" href="#">Something else here</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
+                <li class="nav-item"><a class="nav-link" href="https://dynastykids.github.io/React-FuelCheck/">MapView - React</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Mapview (Beta)
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','U91'])?>">Unleaded 91</a></li>
+                        <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','E10'])?>">Unleaded 94 / E10</a></li>
+                        <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','P95'])?>">Premium Unleaded 95</a></li>
+                        <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','P98'])?>">Premium Unleaded 98</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','DL'])?>">Diesel</a></li>
+                        <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','PDL'])?>">Premium Diesel</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','LPG'])?>">LPG</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a></li>
             </ul>
             <form class="d-flex">
