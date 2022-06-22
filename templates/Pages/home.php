@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>DynastyFuel Access</title>
@@ -10,12 +8,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/hmac-sha1.min.js" integrity="sha512-OahNHQh8EnqAptVvXgLLIT3LOv+irJSkED9oyUvGvh1MULTHriuXGIk8RHFfRffj5ejGREfE9IRWoBCPSZ5XGw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
-<body>
+<div class="container">
 <h1>DynastyFuel Pump looker - Cheapest stations</h1>
 <hr>
 <p>Table below is showing current cheapest station for each state</p>
 <small>* Currently ACT and VIC only having limited stations data</small>
-<div class="container">
+<div class="row">
     <?php $statenames = ['NSW','QLD', 'VIC', 'ACT', 'TAS', 'SA', 'NT', 'WA'];?>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -111,7 +109,6 @@
 <footer>
     Page was accessed on <?= date('Y-m-d H:i:s')?>
 </footer>
-</body>
+</div>
 <!--<script>document.getElementById("baseurl").innerHTML=window.location.href</script>-->
-</html>
 
