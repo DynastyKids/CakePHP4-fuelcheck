@@ -52,10 +52,12 @@ return static function (RouteBuilder $routes) {
          */
         $builder->connect('/', ['controller' => 'Pages', 'action' => 'home']);
         $builder->connect('/data', ['controller' => 'Info', 'action' => 'data']);
+        $builder->connect('/mapview/*', ['controller' => 'Pages', 'action' => 'mapl']);
         $builder->connect('/fueldata', ['controller' => 'Info', 'action' => 'data']);
         $builder->connect('/cheapinfo', ['controller' => 'Info', 'action' => 'cheapinfo']);
         $builder->connect('/cheaptable', ['controller' => 'Info', 'action' => 'cheaptable']);
         $builder->connect('/state/*', ['controller' => 'Info', 'action' => 'state']);
+        $builder->connect('/development',['controller' => 'Pages', 'action' => 'dev']);
 
 
         /*
