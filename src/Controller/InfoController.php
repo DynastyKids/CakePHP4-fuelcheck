@@ -40,7 +40,7 @@ class InfoController extends AppController
         $requestuser = $this->request->getQuery('user');
         $requestkey = $this->request->getQuery('key');
         if ($this->request->getQuery('user') == null || $this->request->getQuery('key') == null) {
-            throw new AccessDeniedException("Missing username / key query");
+            return $this->response->withType("application/json")->withStringBody(json_encode(['Status' => '403', 'Info' => 'Your access path / key is incorrect']));
         }
         $path = $this->request->getUri();
         $url = $path->getScheme() . '://' . $path->getHost();
@@ -51,11 +51,11 @@ class InfoController extends AppController
         }
         $userinfo = TableRegistry::getTableLocator()->get('Users')->find()->where(['expiretime' >= date("Y-m-d"), 'userinfo' => $requestuser]);
         if ($userinfo->count() < 1) {
-            throw new AccessDeniedException("Your account does not exist / has expired");
+            return $this->response->withType("application/json")->withStringBody(json_encode(['Status' => '403', 'Info' => 'Your account does not exist / has expired']));
         }
         $res = hash_hmac("sha1", $url, (date("Ymd") . $userinfo->toArray()[0]['userkey']));
         if ($res != $requestkey) {
-            throw new AccessDeniedException("Your access path / key is incorrect");
+            return $this->response->withType("application/json")->withStringBody(json_encode(['Status' => '403', 'Info' => 'Your access path / key is incorrect']));
         }
         // End of verify
 
@@ -331,7 +331,7 @@ class InfoController extends AppController
         $requestuser = $this->request->getQuery('user');
         $requestkey = $this->request->getQuery('key');
         if ($this->request->getQuery('user') == null || $this->request->getQuery('key') == null) {
-            throw new AccessDeniedException("Missing username / key query");
+            return $this->response->withType("application/json")->withStringBody(json_encode(['Status' => '403', 'Info' => 'Your access path / key is incorrect']));
         }
         $path = $this->request->getUri();
         $url = $path->getScheme() . '://' . $path->getHost();
@@ -342,11 +342,11 @@ class InfoController extends AppController
         }
         $userinfo = TableRegistry::getTableLocator()->get('Users')->find()->where(['expiretime' >= date("Y-m-d"), 'userinfo' => $requestuser]);
         if ($userinfo->count() < 1) {
-            throw new AccessDeniedException("Your account does not exist / has expired");
+            return $this->response->withType("application/json")->withStringBody(json_encode(['Status' => '403', 'Info' => 'You account does not exist / has expired']));
         }
         $res = hash_hmac("sha1", $url, (date("Ymd") . $userinfo->toArray()[0]['userkey']));
         if ($res != $requestkey) {
-            throw new AccessDeniedException("Your access path / key is incorrect");
+            return $this->response->withType("application/json")->withStringBody(json_encode(['Status' => '403', 'Info' => 'Your access path / key is incorrect']));
         }
         // End of verify
 
@@ -354,13 +354,13 @@ class InfoController extends AppController
         $stateList = ['QLD', 'NSW', 'ACT', 'VIC', 'TAS', 'SA', 'NT', 'WA'];
         if (in_array($state, $stateList)) {
             if ($userinfo->toArray()[0][$state] < 1) {
-                throw new AccessDeniedException("You accound has no privilege to access this data");
+                return $this->response->withType("application/json")->withStringBody(json_encode(['Status' => '403', 'Info' => 'You account has no privilege to access this data']));
             }
             $state = ucfirst(strtolower($state));
             $selectedTable = TableRegistry::getTableLocator()->get($state . 'fuel')->find();
             return $this->response->withType("application/json")->withStringBody(json_encode(['Status' => '00', strtoupper($state) => $selectedTable->find()->toArray()]));
         } else {
-            throw new BadQueryStringException("The state parameter is incorrect");
+            return $this->response->withType("application/json")->withStringBody(json_encode(['Status' => '400', 'Info' => 'The state parameter is incorrect']));
         }
     }
 }
