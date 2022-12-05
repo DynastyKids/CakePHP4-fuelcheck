@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Tasfuel Entity
+ * Allstation Entity
  *
  * @property int $id
  * @property string|null $brand
@@ -28,8 +28,10 @@ use Cake\ORM\Entity;
  * @property float|null $E10
  * @property float|null $E85
  * @property float|null $B20
+ * @property float|null $adblue
+ * @property float|null $LAF
  */
-class Tasfuel extends Entity
+class Allstation extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -60,5 +62,7 @@ class Tasfuel extends Entity
         'E10' => true,
         'E85' => true,
         'B20' => true,
+        'adblue' => true,
+        'LAF' => true,
     ];
 }

@@ -9,23 +9,23 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Qldfuel Model
+ * Allstations Model
  *
- * @method \App\Model\Entity\Qldfuel newEmptyEntity()
- * @method \App\Model\Entity\Qldfuel newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Qldfuel[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Qldfuel get($primaryKey, $options = [])
- * @method \App\Model\Entity\Qldfuel findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Qldfuel patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Qldfuel[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Qldfuel|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Qldfuel saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Qldfuel[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Qldfuel[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Qldfuel[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Qldfuel[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Allstation newEmptyEntity()
+ * @method \App\Model\Entity\Allstation newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\Allstation[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Allstation get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Allstation findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Allstation patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Allstation[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Allstation|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Allstation saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Allstation[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Allstation[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Allstation[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Allstation[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class QldfuelTable extends Table
+class AllstationsTable extends Table
 {
     /**
      * Initialize method
@@ -37,7 +37,7 @@ class QldfuelTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('qldfuel');
+        $this->setTable('allstations');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
     }
@@ -136,6 +136,10 @@ class QldfuelTable extends Table
         $validator
             ->numeric('B20')
             ->allowEmptyString('B20');
+
+        $validator
+            ->numeric('adblue')
+            ->allowEmptyString('adblue');
 
         $validator
             ->numeric('LAF')

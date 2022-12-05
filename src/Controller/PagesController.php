@@ -76,25 +76,25 @@ class PagesController extends AppController
 
     public function home()
     {
-        $states=["nsw","tas","wa","sa","nt","qld","vic","act"];
+        $states=["ACT","NSW","NT","SA","TAS","QLD","VIC","WA"];
         $fueltypes = ["U91","E10","P95","P98","LPG","DL","PDL","LAF"];
         $allresults = ['Status' => '00'];
 
         foreach ($states as $state){
             $statecluster=[];
             foreach ($fueltypes as $fueltype){
-                if($fueltype == "LAF" && $state != "nt"){   // Skipping LAF for other states
+                if($fueltype == "LAF" && $state != "NT"){   // Skipping LAF for other states
                     continue;
                 }
 
-                $tablename = ucfirst($state).'fuel';
-                $resultrow = TableRegistry::getTableLocator()->get($tablename)->find()->select(['brand', 'name', 'address','suburb','postcode', 'loc_lat', 'loc_lng', $fueltype])->whereNotNull($fueltype)->orderAsc($fueltype)->limit(15)->toArray();
-                $statecluster+=[$fueltype=>$resultrow];
+                $resultrow = TableRegistry::getTableLocator()->get('Allstations')->find()->where(['state'=>$state])
+                    ->select(['brand', 'name', 'address','suburb','state','postcode', 'loc_lat', 'loc_lng', $fueltype])
+                    ->whereNotNull($fueltype)->orderAsc($fueltype)->limit(25);
+                $statecluster+=[$fueltype=>$resultrow->toArray()];
             }
             $allresults += [strtoupper($state) => $statecluster];
         }
-
-        $this->set(compact('allresults'));
+        $this->set(compact('allresults','states','fueltypes'));
     }
 
     public function dev(){

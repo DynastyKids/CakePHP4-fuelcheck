@@ -90,12 +90,9 @@ $this->layout = 'blank';
                                             <td colspan="1"><?= $eachstation[$fueltype] ?></td>
                                             <td colspan="5">
                                                 <a href="https://www.google.com/maps/search/?api=1&query=<?= $eachstation['loc_lat'] ?>%2C<?= $eachstation['loc_lng'] ?>">
-                                                    <?php if ($statename == "TAS" || $statename == "NSW") {
-                                                        echo $eachstation['address'];
-                                                    } else {
-                                                        echo $eachstation['address'] . ',' . $eachstation['suburb'] . ',' . $statename . ' ' . $eachstation['postcode'];
-                                                    }
-                                                    ?></a></td>
+                                                    <?= $eachstation['address'] . ',' . $eachstation['suburb'] . ',' . $statename . ' ' . $eachstation['postcode']; ?>
+                                                </a>
+                                            </td>
                                         </tr>
                                     <?php } ?>
                                     </tbody>
