@@ -20,9 +20,7 @@
     <h1>DynastyFuel Pump looker - Cheapest stations</h1>
     <hr>
     <p>Table below is showing current cheapest station for each state</p>
-    <small>* Currently ACT and VIC only having limited stations data</small>
     <div class="row">
-        <?php $statenames = ['ACT','NSW','NT','QLD','SA','TAS','VIC','WA']; ?>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <?php foreach ($allresults as $statename => $eachstate) { ?>
@@ -110,7 +108,7 @@
                                                     <td colspan="1"><?= $eachstation[$fueltype] ?></td>
                                                     <td colspan="5">
                                                         <a href="https://www.google.com/maps/search/?api=1&query=<?= $eachstation['loc_lat'] ?>%2C<?= $eachstation['loc_lng'] ?>">
-                                                            <?= $eachstation['address'] . ',' . $eachstation['suburb'] . ',' . $statename . ' ' . $eachstation['postcode']; ?></a></td>
+                                                            <?= $eachstation['address'] . ',' . $eachstation['suburb'] . ',' . $eachstation['state'] . ' ' . $eachstation['postcode']; ?></a></td>
                                                 </tr>
                                             <?php } ?>
                                             </tbody>
