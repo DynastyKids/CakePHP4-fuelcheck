@@ -117,13 +117,35 @@ class PagesController extends AppController
             $fueltype="U91";
         }
         // Use fuel type from outside input
-        $states=["nsw","tas","wa","sa","nt","qld","vic","act"];
-        $priceinfo=[];
-        foreach ($states as $state){
-            $tablename = ucfirst($state).'fuel';
-            $resultrow = TableRegistry::getTableLocator()->get($tablename)->find('all')->select(['brand', 'name', 'address','suburb','postcode', 'loc_lat', 'loc_lng', $fueltype])->whereNotNull($fueltype)->orderAsc($fueltype)->toArray();
-            $priceinfo+=[$state=>$resultrow];
+        $priceinfo=TableRegistry::getTableLocator()->get('allstations')->find('all')->whereNotNull($fueltype)->orderAsc($fueltype)->toArray();
+        $this->set(compact('priceinfo'));
+    }
+
+    public function table(){
+        $statenames=["NATIONWIDE","ACT","NSW","NT","SA","TAS","QLD","VIC","WA"];
+        $fueltypes = ["U91","E10","P95","P98","LPG","DL","PDL"];
+        $allresults = ['Status' => '00'];
+
+        foreach ($statenames as $state) {
+            $statecluster = [];
+            if ($state == "NT"){
+                $statecluster+=['LAF'=>TableRegistry::getTableLocator()->get('Allstations')->find()->where(['state'=>$state])
+                    ->select(['brand', 'name', 'address','suburb','state','postcode', 'loc_lat', 'loc_lng', 'LAF'])
+                    ->whereNotNull('LAF')->orderAsc('LAF')->limit(25)];
+            }
+            foreach ($fueltypes as $fueltype) {
+                $resultrow = TableRegistry::getTableLocator()->get('Allstations')->find()->where(['state'=>$state])
+                    ->select(['brand', 'name', 'address','suburb','state','postcode', 'loc_lat', 'loc_lng', $fueltype])
+                    ->whereNotNull($fueltype)->orderAsc($fueltype)->limit(25);
+                if ($state == "NATIONWIDE"){
+                    $resultrow = TableRegistry::getTableLocator()->get('Allstations')->find()
+                        ->select(['brand', 'name', 'address','suburb','state','postcode', 'loc_lat', 'loc_lng', $fueltype])
+                        ->whereNotNull($fueltype)->orderAsc($fueltype)->limit(50);
+                }
+                $statecluster+=[$fueltype=>$resultrow->toArray()];
+            }
+            $allresults += [strtoupper($state) => $statecluster];
         }
-        $this->set(compact('fueltype','priceinfo'));
+        $this->set(compact('allresults','statenames','fueltypes'));
     }
 }

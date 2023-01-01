@@ -41,10 +41,10 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="<?= $this->Url->build('/') ?>">Home</a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="https://dynastykids.github.io/React-FuelCheck/">MapView - React</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?= $this->Url->build(['controller'=>'pages','action'=>'table'])?>">Table List view</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Mapview (Beta)
+                        Mapview
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','U91'])?>">Unleaded 91</a></li>
@@ -58,6 +58,7 @@
                         <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','LPG'])?>">LPG</a></li>
                     </ul>
                 </li>
+                <li class="nav-item"><a class="nav-link" href="https://dynastykids.github.io/React-FuelCheck/">Mirrored MapView</a></li>
                 <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a></li>
             </ul>
             <form class="d-flex">

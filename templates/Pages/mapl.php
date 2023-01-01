@@ -4,8 +4,10 @@
 <head>
     <title>Mapview</title>
 </head>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
-<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/css/autocomplete.min.css"/>
 <script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/js/autocomplete.min.js"></script>
@@ -14,44 +16,104 @@
 <?php echo $this->Html->css('MarkerCluster.Default') ?>
 <?php echo $this->Html->script('leaflet.markercluster') ?>
 
-<div class="row" style="display: flex;top:0">
+
+<div id="maprow">
     <div id="map"></div>
+    <footer>
+        <p id="ftline1">Loading Station data</p>
+        <p id="ftline2">Loading Address info</p>
+        <p id="maprange" style="display: none"></p>
+    </footer>
 </div>
+
 
 <style>
     #map {
-        width: 100%;
-        height: 90vh;
+        width: 100vw;
+        height: 100%;
         top:0
+    }
+
+    #maprow{
+        top: 0;
+        width: 100vw;
+        min-width: 100%;
+        display: flex;
+        flex-flow: column;
+        height: calc(100vh - 56px);
+    }
+
+    footer p{
+        margin-bottom: 0;
     }
 </style>
 
 <script>
-    var priceinfo = <?php echo json_encode($priceinfo,JSON_HEX_TAG);?>;
-    let fueltype = window.location.pathname.substr(9);
-    var map = L.map('map').setView([-28, 133], 4.5);
+    let iconurl = window.location.origin+'/img/fuel/'
+    let priceinfo = <?= json_encode($priceinfo);?>;
+    let fueltype = window.location.pathname.replace("/mapview/","");
+    let config = {
+        minZoom: 5.5,
+        maxZoom: 16
+    }
+    const map = L.map('map',config).setView([-28, 133], 6);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 20,
-        attribution: 'CakeFuel © OpenStreetMap'
+        maxZoom: 16,
+        minZoom: 5.5,
+        attribution: '0xJoy © OpenStreetMap'
     }).addTo(map);
-    map.locate({setView: true, maxZoom: 20});
+    map.locate({setView: true, maxZoom: 16});
 
-    var markers = L.markerClusterGroup();
-    let states=["nsw","tas","wa","sa","nt","qld","vic","act"]
+    let markers = L.markerClusterGroup();
 
-    states.forEach(function (state) {
-        console.log(priceinfo)
-        priceinfo[state].forEach(function (station) {
+    priceinfo.forEach(function (currentStation, seq, arr){
+        const customPopup = `<div style="width:300px"><h6>${currentStation.name}</h6><hr><p>Address: ${currentStation.address} `+
+            (currentStation.suburb !== null ? currentStation.suburb : "")+
+            `${currentStation.state} `+(currentStation.postcode !== null ? currentStation.postcode : "") +
+            `</p><p>${fueltype}: ${currentStation[fueltype]}</p></div>`;
+        const customOptions = {maxWidth: "auto", className: "customPopup",};
 
-            const customPopup =
-                '<div style="width:300px"><h6>'+station.name+'</h6><hr><p>Address: '+station.address+'</p><p>'+fueltype+': '+ station[fueltype]+'</p></div>';
-            const customOptions = {maxWidth: "auto", className: "customPopup",};
+        let iconurl = window.location.origin+'/img/fuel/gas.png'
+        if (currentStation.brand.includes("Eleven") ){ iconurl = window.location.origin+'/img/fuel/711.png'}
+        else if (currentStation.brand.includes("AM/PM") ){ iconurl = window.location.origin+'/img/fuel/ampm.png'}
+        else if (currentStation.brand.includes("Ampol") ){ iconurl = window.location.origin+'/img/fuel/ampol.png'}
+        else if (currentStation.brand.includes("BOC") ){ iconurl = window.location.origin+'/img/fuel/boc.png'}
+        else if (currentStation.brand.includes("BP") ){ iconurl = window.location.origin+'/img/fuel/bp.png'}
+        else if (currentStation.brand.includes("Budget") ){ iconurl = window.location.origin+'/img/fuel/budget.png'}
+        else if (currentStation.brand.includes("Woolworths") ){ iconurl = window.location.origin+'/img/fuel/caltexwws.png'}
+        else if (currentStation.brand.includes("Caltex") ){ iconurl = window.location.origin+'/img/fuel/caltex.png'}
+        else if (currentStation.brand.includes("Chargefox") ){ iconurl = window.location.origin+'/img/fuel/chargefox.png'}
+        else if (currentStation.brand.includes("ChargePoint") ){ iconurl = window.location.origin+'/img/fuel/chargepoint.png'}
+        else if (currentStation.brand.includes("Coles") ){ iconurl = window.location.origin+'/img/fuel/colesexp.png'}
+        else if (currentStation.brand.includes("Costco") ){ iconurl = window.location.origin+'/img/fuel/costco.png'}
+        else if (currentStation.brand.includes("Enhance") ){ iconurl = window.location.origin+'/img/fuel/enhance.png'}
+        else if (currentStation.brand.includes("Everty") ){ iconurl = window.location.origin+'/img/fuel/everty.png'}
+        else if (currentStation.brand.includes("Evie") ){ iconurl = window.location.origin+'/img/fuel/evie.png'}
+        else if (currentStation.brand.includes("EVUp") ){ iconurl = window.location.origin+'/img/fuel/evup.png'}
+        else if (currentStation.brand.includes("Inland") ){ iconurl = window.location.origin+'/img/fuel/inland.png'}
+        else if (currentStation.brand.includes("Liberty") ){ iconurl = window.location.origin+'/img/fuel/liberty.png'}
+        else if (currentStation.brand.includes("Lowes") ){ iconurl = window.location.origin+'/img/fuel/lowes.png'}
+        else if (currentStation.brand.includes("Matilda") ){ iconurl = window.location.origin+'/img/fuel/matilda.png'}
+        else if (currentStation.brand.includes("Metro") || currentStation.brand.includes("metro")){ iconurl = window.location.origin+'/img/fuel/metro.png'}
+        else if (currentStation.brand.includes("Mobil") ){ iconurl = window.location.origin+'/img/fuel/mobil.png'}
+        else if (currentStation.brand.includes("Mogas") ){ iconurl = window.location.origin+'/img/fuel/mogas.png'}
+        else if (currentStation.brand.includes("NRMA") ){ iconurl = window.location.origin+'/img/fuel/nrma.png'}
+        else if (currentStation.brand.includes("Puma") ){ iconurl = window.location.origin+'/img/fuel/puma.png'}
+        else if (currentStation.brand.includes("Shell") ){ iconurl = window.location.origin+'/img/fuel/shell.png'}
+        else if (currentStation.brand.includes("Speedway") ){ iconurl = window.location.origin+'/img/fuel/speedway.png'}
+        else if (currentStation.brand.includes("Tesla") ){ iconurl = window.location.origin+'/img/fuel/tesla.png'}
+        else if (currentStation.brand.includes("United") ){ iconurl = window.location.origin+'/img/fuel/united.png'}
+        else if (currentStation.brand.includes("Vibe") ){ iconurl = window.location.origin+'/img/fuel/vibe.png'}
+        else if (currentStation.brand.includes("Westside") ){ iconurl = window.location.origin+'/img/fuel/westside.png'}
+        else if (currentStation.brand.includes("X Convenience") ){ iconurl = window.location.origin+'/img/fuel/x.png'}
 
-            let marker = new L.marker([station.loc_lat, station.loc_lng]).bindPopup(customPopup,customOptions);
-            // let marker = new L.marker([station.loc_lat, station.loc_lng],{icon: theicon}).bindPopup(customPopup,customOptions);
-            markers.addLayer(marker);
-        })
+        const customicon = L.icon({iconUrl : iconurl, iconSize: [25, 25]})
+        let marker = new L.marker([currentStation.loc_lat,currentStation.loc_lng],{
+            icon: customicon,
+        }).bindPopup(customPopup,customOptions).bindTooltip(`${currentStation[fueltype]}`,{direction: 'top',permanent:true}).openTooltip();
+        markers.addLayer(marker);
     })
+
     map.addLayer(markers);
 
     function onLocationFound(e) {
@@ -62,121 +124,45 @@
     }
     map.on('locationfound', onLocationFound);
 
-    // --------------------------------------------------------------
-    // Search & zoom to location
+    const markerPlace = document.getElementById("maprange");
 
-    // add "random" button
-    const buttonTemplate = `<div class="leaflet-search" style="max-width: 35px"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M31.008 27.231l-7.58-6.447c-0.784-0.705-1.622-1.029-2.299-0.998 1.789-2.096 2.87-4.815 2.87-7.787 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-0.031 0.677 0.293 1.515 0.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007 0.23s0.997-2.903-0.23-4.007zM12 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"></path></svg></div><div class="auto-search-wrapper max-height"><input type="text" id="marker" autocomplete="off"  aria-describedby="instruction" aria-label="Search ..." /><div id="instruction" class="hidden">When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</div></div>`;
+    map.on("dragend", setNewArea);
+    map.on("dragstart", updateCoordInfo);
+    map.on("zoomend", setNewArea);
 
-    // create custom button
-    const customControl = L.Control.extend({
-        // button position
-        options: {
-            position: "topleft",
-            className: "leaflet-autocomplete",
-        },
+    function updateCoordInfo(north, south){
+        markerPlace.innerText = south === undefined ? "Map Moving" : `NE:${north},SW:${south}`;
+    }
 
-        // method
-        onAdd: function () {
-            return this._initialLayout();
-        },
+    function setNewArea(){
+        const bounds = map.getBounds()
+        updateCoordInfo(bounds._northEast, bounds._southWest)
+        map.fitBounds(bounds)
+        getCheapestStation(bounds._northEast, bounds._southWest)
+    }
 
-        _initialLayout: function () {
-            // create button
-            const container = L.DomUtil.create(
-                "div",
-                "leaflet-bar " + this.options.className
-            );
-            L.DomEvent.disableClickPropagation(container);
-            container.innerHTML = buttonTemplate;
+    document.addEventListener("DOMContentLoaded", function (){
+        const bounds = map.getBounds()
+        updateCoordInfo(bounds._northEast, bounds._southWest);
+        getCheapestStation(bounds._northEast, bounds._southWest);
+    })
 
-            return container;
-        },
-    });
-
-    map.addControl(new customControl()); // New button added
-    // --------------------------------------------------------------
-    // input element
-    const root = document.getElementById("marker");
-
-    function addClassToParent() {
-        const searchBtn = document.querySelector(".leaflet-search");
-        searchBtn.addEventListener("click", (e) => {
-            e.target.closest(".leaflet-autocomplete").classList.toggle("active-autocomplete");
-
-            root.placeholder = "Input a location";
-            root.focus();
-            clickOnClearButton();
+    function getCheapestStation(ne,sw){
+        let cheapeststation = null
+        document.getElementById('ftline1').innerText = `No station data available in range.`
+        document.getElementById('ftline2').innerText = `......`
+        priceinfo.forEach(function (currentStation, seq, arr) {
+            if (currentStation['loc_lat'] < ne.lat && currentStation['loc_lat'] > sw.lat &&
+                currentStation['loc_lng'] < ne.lng && currentStation['loc_lng'] > sw.lng)
+                if (cheapeststation === null) {
+                    cheapeststation = currentStation
+                    document.getElementById('ftline1').innerText = `Cheapest ${fueltype}: ${currentStation[fueltype]} @ ${currentStation['name']}`
+                    document.getElementById('ftline2').innerText = `Addr: ${currentStation['address']}, ${currentStation['suburb']}, ${currentStation['state']} ${currentStation['postcode']}`
+                } else if (cheapeststation[fueltype] > currentStation[fueltype]) {
+                    cheapeststation = currentStation
+                    document.getElementById('ftline1').innerText = `Cheapest ${fueltype}: ${currentStation[fueltype]} @ ${currentStation['name']}`
+                    document.getElementById('ftline2').innerText = `Addr: ${currentStation['address']}, ${currentStation['suburb']}, ${currentStation['state']} ${currentStation['postcode']}`
+                }
         });
     }
-
-    function clickOnClearButton() {
-        document.querySelector(".auto-clear").click();
-    }
-
-    addClassToParent();
-    map.on("click", () => {
-        document
-            .querySelector(".leaflet-autocomplete")
-            .classList.remove("active-autocomplete");
-
-        clickOnClearButton();
-    });
-
-    // autocomplete section, Credit / Reference: https://github.com/tomik23/autocomplete
-
-    new Autocomplete("marker", {
-        delay: 1000,
-        selectFirst: true,
-        howManyCharacters: 3,
-
-        onSearch: function ({ currentValue }) {
-            const api = `https://nominatim.openstreetmap.org/search?format=geojson&limit=5&q=${encodeURI(currentValue)}`;
-            //Promise call
-            return new Promise((resolve) => {
-                fetch(api).then((response) => response.json())
-                    .then((data) => {
-                        resolve(data.features);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            });
-        },
-
-        onResults: ({ currentValue, matches, template }) => {
-            const regex = new RegExp(currentValue, "i");
-            // checking if we have results if we don't take data from the noResults method
-            return matches === 0 ? template : matches.map((element) =>
-            {
-                return `<li role="option"><p>${element.properties.display_name.replace(regex, (str) => `<b>${str}</b>`)}</p></li> `;})
-                .join("");
-        },
-
-        onSubmit: ({ object }) => {
-            const { display_name } = object.properties;
-            const cord = object.geometry.coordinates;
-
-            map.eachLayer(function (layer) {
-                if (layer.options && layer.options.pane === "markerPane") {
-                    if (layer._icon.classList.contains("leaflet-marker-locate")) {
-                        map.removeLayer(layer);
-                    }
-                }
-            });
-
-            const marker = L.marker([cord[1], cord[0]], {   // add marker
-                title: display_name,
-            });
-            marker.addTo(map).bindPopup(display_name); // add marker to map
-
-            map.setView([cord[1], cord[0]], 8); // set marker to coordinates
-
-            L.DomUtil.addClass(marker._icon, "leaflet-marker-locate");  // add class to marker
-        },
-
-        // the method presents no results
-        noResults: ({ currentValue, template }) =>
-            template(`<li>No results found: "${currentValue}"</li>`),
-    });
 </script>
