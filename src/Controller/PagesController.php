@@ -117,7 +117,7 @@ class PagesController extends AppController
             $fueltype="U91";
         }
         // Use fuel type from outside input
-        $priceinfo=TableRegistry::getTableLocator()->get('allstations')->find('all')->whereNotNull($fueltype)->orderAsc($fueltype)->toArray();
+        $priceinfo=TableRegistry::getTableLocator()->get('Allstations')->find('all')->whereNotNull($fueltype)->orderAsc($fueltype)->toArray();
         $this->set(compact('priceinfo'));
     }
 
