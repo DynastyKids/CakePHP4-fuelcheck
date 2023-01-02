@@ -69,7 +69,6 @@
     let markers = L.markerClusterGroup();
     const fueltypearr = ['B20','DL','E10','E85','EV','LAF','LPG','P95','P98','PDL','U91']
     priceinfo.forEach(function (currentStation, seq, arr){
-        console.log(currentStation)
         let customPopup = `<div style="width:300px"><h6>${currentStation.name}</h6><hr>
             <p>Address: <a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${currentStation.loc_lat}%2C${currentStation.loc_lng}">${currentStation.address} `+
             (currentStation.suburb !== null ? currentStation.suburb : "")+
