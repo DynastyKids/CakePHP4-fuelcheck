@@ -84,20 +84,19 @@ class PagesController extends AppController
     }
 
     public function mapl($fueltype = null){
-        if($fueltype == null){
-            $fueltype="U91";
+        $intype = 0;
+        $priceinfo=TableRegistry::getTableLocator()->get('Allstations')->find('all')->orderAsc($fueltype)->toArray();
+        $fueltypes = ['U91','E10','P95','P98','DL','PDL','LPG','EV'];
+        if ($fueltype != null && in_array($fueltype, $fueltypes)){ // Fuel type found
+            $intype = 1;
+            $priceinfo=TableRegistry::getTableLocator()->get('Allstations')->find('all')->whereNotNull($fueltype)->orderAsc($fueltype)->toArray();
         }
-        $fueltypes = ['U91','E10','P95','P98','DL','PDL','LPG'];
-        if (!in_array($fueltype, $fueltypes)){
-            // Fuel type not found
-            $fueltype="U91";
-        }
-        // Use fuel type from outside input
-        $priceinfo=TableRegistry::getTableLocator()->get('Allstations')->find('all')->whereNotNull($fueltype)->orderAsc($fueltype)->toArray();
-        $this->set(compact('priceinfo'));
+        $latestinfo=TableRegistry::getTableLocator()->get('Info')->find('all')->orderAsc('lastfetchtime')->limit(1)->toArray();
+        $this->set(compact('priceinfo','intype','latestinfo'));
     }
 
     public function table(){
+        $latestinfo=TableRegistry::getTableLocator()->get('Info')->find('all')->orderAsc('lastfetchtime')->limit(1)->toArray();
         $statenames=["NATIONWIDE","ACT","NSW","NT","SA","TAS","QLD","VIC","WA"];
         $fueltypes = ["U91","E10","P95","P98","LPG","DL","PDL"];
         $allresults = ['Status' => '00'];
@@ -107,21 +106,21 @@ class PagesController extends AppController
             if ($state == "NT"){
                 $statecluster+=['LAF'=>TableRegistry::getTableLocator()->get('Allstations')->find()->where(['state'=>$state])
                     ->select(['brand', 'name', 'address','suburb','state','postcode', 'loc_lat', 'loc_lng', 'LAF'])
-                    ->whereNotNull('LAF')->orderAsc('LAF')->limit(25)];
+                    ->whereNotNull('LAF')->orderAsc('LAF')->limit(20)];
             }
             foreach ($fueltypes as $fueltype) {
                 $resultrow = TableRegistry::getTableLocator()->get('Allstations')->find()->where(['state'=>$state])
                     ->select(['brand', 'name', 'address','suburb','state','postcode', 'loc_lat', 'loc_lng', $fueltype])
-                    ->whereNotNull($fueltype)->orderAsc($fueltype)->limit(25);
+                    ->whereNotNull($fueltype)->orderAsc($fueltype)->limit(20);
                 if ($state == "NATIONWIDE"){
                     $resultrow = TableRegistry::getTableLocator()->get('Allstations')->find()
                         ->select(['brand', 'name', 'address','suburb','state','postcode', 'loc_lat', 'loc_lng', $fueltype])
-                        ->whereNotNull($fueltype)->orderAsc($fueltype)->limit(50);
+                        ->whereNotNull($fueltype)->orderAsc($fueltype)->limit(35);
                 }
                 $statecluster+=[$fueltype=>$resultrow->toArray()];
             }
             $allresults += [strtoupper($state) => $statecluster];
         }
-        $this->set(compact('allresults','statenames','fueltypes'));
+        $this->set(compact('allresults','statenames','fueltypes','latestinfo'));
     }
 }

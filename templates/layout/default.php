@@ -27,8 +27,8 @@
     <?= $this->Html->meta('icon') ?>
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6124120549237365"
-            crossorigin="anonymous"></script>
+<!--    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6124120549237365"-->
+<!--            crossorigin="anonymous"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/core.min.js"
             integrity="sha512-t8vdA86yKUE154D1VlNn78JbDkjv3HxdK/0MJDMBUXUjshuzRgET0ERp/0MAgYS+8YD9YmFwnz6+FWLz1gRZaw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -61,6 +61,8 @@
                         Mapview
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl'])?>">All</a></li>
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','U91'])?>">Unleaded 91</a></li>
                         <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','E10'])?>">Unleaded 94 / E10</a></li>
                         <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','P95'])?>">Premium Unleaded 95</a></li>
@@ -70,6 +72,8 @@
                         <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','PDL'])?>">Premium Diesel</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','LPG'])?>">LPG</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','EV'])?>">Electric</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="https://dynastykids.github.io/React-FuelCheck/">Mirrored MapView</a></li>

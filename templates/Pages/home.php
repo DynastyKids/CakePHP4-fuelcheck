@@ -3,3 +3,5 @@
     <title>Home</title>
     <?= $this->Html->meta('icon') ?>
 </head>
+<body>
+</body>
