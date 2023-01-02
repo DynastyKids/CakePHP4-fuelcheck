@@ -1,5 +1,4 @@
 <?php
-
 ?>
 <head>
     <title>Mapview</title>
