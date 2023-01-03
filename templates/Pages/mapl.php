@@ -30,7 +30,9 @@
 <style>
     #map {
         width: 100vw;
-        height: 100%;
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 95);
+        min-height: -webkit-fill-available;
         top:0
     }
 
@@ -40,11 +42,13 @@
         min-width: 100%;
         display: flex;
         flex-flow: column;
-        height: calc(100vh - 56px);
+        min-height: calc(100vh - 75px);
+        min-height: -webkit-fill-available;
     }
 
     footer p{
-        margin-bottom: 0;
+        bottom: 0;
+        margin-bottom: env(safe-area-inset-bottom);
     }
 </style>
 
@@ -171,8 +175,9 @@
     function getCheapestStation(ne,sw){
         let cheapeststation = null
         if (intype === 0){
-            document.getElementById('ftline1').style.display = 'none';
+            document.getElementById('ftline1').innerText = 'Select a fuel type to show cheapest station info.';
             document.getElementById('ftline2').style.display = 'none';
+            return ;
         }
         document.getElementById('ftline1').innerText = `No station data available in range.`
         document.getElementById('ftline2').innerText = `......`
@@ -191,7 +196,11 @@
         });
     }
 </script>
+<script>
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+</script>
 <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
         data-id="DynastyKids" data-description="Support me on Buy me a coffee!"
-        data-message="Thanks for your support. If you are happy with it, you can support me with $1 or multiple. And all funds in this pool will contribute to server running cost."
+        data-message="If you are happy with it, you can support the server running cost."
         data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="36"></script>
