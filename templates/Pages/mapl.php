@@ -16,7 +16,7 @@
 <?php echo $this->Html->script('leaflet.markercluster') ?>
 
 
-<div id="maprow">
+<div id="maprow" style="display: flex;flex-direction: column;height: 100%;">
     <div id="map"></div>
     <footer>
         <p id="ftline1" style="font-size: 0.65rem">Loading Station data</p>
@@ -29,20 +29,21 @@
 
 <style>
     #map {
-        width: 100vw;
-        height: 100vh;
-        height: calc(var(--vh, 1vh) * 95);
-        min-height: -webkit-fill-available;
-        top:0
+        /*height: 100vh; !* Set height to 100% of viewport height *!*/
+        width: 100vw; /* Set width to 100% of viewport width */
+        height: calc(100vh - 100px);
+    }
+    .row {
+        flex: 0;
     }
 
     #maprow{
         top: 0;
-        width: 100vw;
+        width: 99vw;
         min-width: 100%;
         display: flex;
         flex-flow: column;
-        min-height: calc(100vh - 75px);
+        min-height: calc(100vh - 110px);
         min-height: -webkit-fill-available;
     }
 
@@ -92,38 +93,73 @@
         const customOptions = {maxWidth: "auto", className: "customPopup",};
 
         let iconurl = window.location.origin+'/img/fuel/gas.png'
-        if (currentStation.brand.includes("Eleven") ){ iconurl = window.location.origin+'/img/fuel/711.png'}
-        else if (currentStation.brand.includes("AM/PM") ){ iconurl = window.location.origin+'/img/fuel/ampm.png'}
-        else if (currentStation.brand.includes("Ampol") ){ iconurl = window.location.origin+'/img/fuel/ampol.png'}
-        else if (currentStation.brand.includes("BOC") ){ iconurl = window.location.origin+'/img/fuel/boc.png'}
-        else if (currentStation.brand.includes("BP") ){ iconurl = window.location.origin+'/img/fuel/bp.png'}
-        else if (currentStation.brand.includes("Budget") ){ iconurl = window.location.origin+'/img/fuel/budget.png'}
-        else if (currentStation.brand.includes("Woolworths") ){ iconurl = window.location.origin+'/img/fuel/caltexwws.png'}
-        else if (currentStation.brand.includes("Caltex") ){ iconurl = window.location.origin+'/img/fuel/caltex.png'}
-        else if (currentStation.brand.includes("Chargefox") ){ iconurl = window.location.origin+'/img/fuel/chargefox.png'}
-        else if (currentStation.brand.includes("ChargePoint") ){ iconurl = window.location.origin+'/img/fuel/chargepoint.png'}
-        else if (currentStation.brand.includes("Coles") ){ iconurl = window.location.origin+'/img/fuel/colesexp.png'}
-        else if (currentStation.brand.includes("Costco") ){ iconurl = window.location.origin+'/img/fuel/costco.png'}
-        else if (currentStation.brand.includes("Enhance") ){ iconurl = window.location.origin+'/img/fuel/enhance.png'}
-        else if (currentStation.brand.includes("Everty") ){ iconurl = window.location.origin+'/img/fuel/everty.png'}
-        else if (currentStation.brand.includes("Evie") ){ iconurl = window.location.origin+'/img/fuel/evie.png'}
-        else if (currentStation.brand.includes("EVUp") ){ iconurl = window.location.origin+'/img/fuel/evup.png'}
-        else if (currentStation.brand.includes("Inland") ){ iconurl = window.location.origin+'/img/fuel/inland.png'}
-        else if (currentStation.brand.includes("Liberty") ){ iconurl = window.location.origin+'/img/fuel/liberty.png'}
-        else if (currentStation.brand.includes("Lowes") ){ iconurl = window.location.origin+'/img/fuel/lowes.png'}
-        else if (currentStation.brand.includes("Matilda") ){ iconurl = window.location.origin+'/img/fuel/matilda.png'}
-        else if (currentStation.brand.includes("Metro") || currentStation.brand.includes("metro")){ iconurl = window.location.origin+'/img/fuel/metro.png'}
-        else if (currentStation.brand.includes("Mobil") ){ iconurl = window.location.origin+'/img/fuel/mobil.png'}
-        else if (currentStation.brand.includes("Mogas") ){ iconurl = window.location.origin+'/img/fuel/mogas.png'}
-        else if (currentStation.brand.includes("NRMA") ){ iconurl = window.location.origin+'/img/fuel/nrma.png'}
-        else if (currentStation.brand.includes("Puma") ){ iconurl = window.location.origin+'/img/fuel/puma.png'}
-        else if (currentStation.brand.includes("Shell") ){ iconurl = window.location.origin+'/img/fuel/shell.png'}
-        else if (currentStation.brand.includes("Speedway") ){ iconurl = window.location.origin+'/img/fuel/speedway.png'}
-        else if (currentStation.brand.includes("Tesla") ){ iconurl = window.location.origin+'/img/fuel/tesla.png'}
-        else if (currentStation.brand.includes("United") ){ iconurl = window.location.origin+'/img/fuel/united.png'}
-        else if (currentStation.brand.includes("Vibe") ){ iconurl = window.location.origin+'/img/fuel/vibe.png'}
-        else if (currentStation.brand.includes("Westside") ){ iconurl = window.location.origin+'/img/fuel/westside.png'}
-        else if (currentStation.brand.includes("X Convenience") ){ iconurl = window.location.origin+'/img/fuel/x.png'}
+        if (currentStation.brand !== null) {
+            if (currentStation.brand.toLowerCase().includes("7-eleven")) {
+                iconurl = window.location.origin + '/img/fuel/711.png'
+            } else if (currentStation.brand.toLowerCase().includes("am/pm")) {
+                iconurl = window.location.origin + '/img/fuel/ampm.png'
+            } else if (currentStation.brand.toLowerCase().includes("ampol")) {
+                iconurl = window.location.origin + '/img/fuel/ampol.png'
+            } else if (currentStation.brand.toLowerCase().includes("boc")) {
+                iconurl = window.location.origin + '/img/fuel/boc.png'
+            } else if (currentStation.brand.toLowerCase().includes("bp")) {
+                iconurl = window.location.origin + '/img/fuel/bp.png'
+            } else if (currentStation.brand.toLowerCase().includes("budget")) {
+                iconurl = window.location.origin + '/img/fuel/budget.png'
+            } else if (currentStation.brand.toLowerCase().includes("woolworths")) {
+                iconurl = window.location.origin + '/img/fuel/caltexwws.png'
+            } else if (currentStation.brand.toLowerCase().includes("caltex")) {
+                iconurl = window.location.origin + '/img/fuel/caltex.png'
+            } else if (currentStation.brand.toLowerCase().includes("chargefox")) {
+                iconurl = window.location.origin + '/img/fuel/chargefox.png'
+            } else if (currentStation.brand.toLowerCase().includes("chargepoint")) {
+                iconurl = window.location.origin + '/img/fuel/chargepoint.png'
+            } else if (currentStation.brand.toLowerCase().includes("coles")) {
+                iconurl = window.location.origin + '/img/fuel/colesexp.png'
+            } else if (currentStation.brand.toLowerCase().includes("costco")) {
+                iconurl = window.location.origin + '/img/fuel/costco.png'
+            } else if (currentStation.brand.toLowerCase().includes("enhance")) {
+                iconurl = window.location.origin + '/img/fuel/enhance.png'
+            } else if (currentStation.brand.toLowerCase().includes("everty")) {
+                iconurl = window.location.origin + '/img/fuel/everty.png'
+            } else if (currentStation.brand.toLowerCase().includes("evie")) {
+                iconurl = window.location.origin + '/img/fuel/evie.png'
+            } else if (currentStation.brand.toLowerCase().includes("evup")) {
+                iconurl = window.location.origin + '/img/fuel/evup.png'
+            } else if (currentStation.brand.toLowerCase().includes("inland")) {
+                iconurl = window.location.origin + '/img/fuel/inland.png'
+            } else if (currentStation.brand.toLowerCase().includes("liberty")) {
+                iconurl = window.location.origin + '/img/fuel/liberty.png'
+            } else if (currentStation.brand.toLowerCase().includes("lowes")) {
+                iconurl = window.location.origin + '/img/fuel/lowes.png'
+            } else if (currentStation.brand.toLowerCase().includes("matilda")) {
+                iconurl = window.location.origin + '/img/fuel/matilda.png'
+            } else if (currentStation.brand.toLowerCase().includes("metro")) {
+                iconurl = window.location.origin + '/img/fuel/metro.png'
+            } else if (currentStation.brand.toLowerCase().includes("mobil")) {
+                iconurl = window.location.origin + '/img/fuel/mobil.png'
+            } else if (currentStation.brand.toLowerCase().includes("mogas")) {
+                iconurl = window.location.origin + '/img/fuel/mogas.png'
+            } else if (currentStation.brand.toLowerCase().includes("nrma")) {
+                iconurl = window.location.origin + '/img/fuel/nrma.png'
+            } else if (currentStation.brand.toLowerCase().includes("puma")) {
+                iconurl = window.location.origin + '/img/fuel/puma.png'
+            } else if (currentStation.brand.toLowerCase().includes("shell")) {
+                iconurl = window.location.origin + '/img/fuel/shell.png'
+            } else if (currentStation.brand.toLowerCase().includes("speedway")) {
+                iconurl = window.location.origin + '/img/fuel/speedway.png'
+            } else if (currentStation.brand.toLowerCase().includes("tesla")) {
+                iconurl = window.location.origin + '/img/fuel/tesla.png'
+            } else if (currentStation.brand.toLowerCase().includes("united")) {
+                iconurl = window.location.origin + '/img/fuel/united.png'
+            } else if (currentStation.brand.toLowerCase().includes("vibe")) {
+                iconurl = window.location.origin + '/img/fuel/vibe.png'
+            } else if (currentStation.brand.toLowerCase().includes("westside")) {
+                iconurl = window.location.origin + '/img/fuel/westside.png'
+            } else if (currentStation.brand.toLowerCase().includes("x convenience")) {
+                iconurl = window.location.origin + '/img/fuel/x.png'
+            }
+        }
 
         const customicon = L.icon({iconUrl : iconurl, iconSize: [25, 25]})
         let marker = new L.marker([currentStation.loc_lat, currentStation.loc_lng], {
