@@ -95,6 +95,20 @@ class PagesController extends AppController
         $this->set(compact('priceinfo','intype','latestinfo'));
     }
 
+    public function mapv2($fueltype = null){
+        $requestType = $this->request->getQuery('fuel');
+        $intype = 0;
+        $fueltypes = ['U91','E10','P95','P98','DL','PDL','LPG','EV'];
+        if ($requestType != null && in_array($requestType, $fueltypes)){ // Fuel type found
+            $intype = 1;
+            $priceinfo=TableRegistry::getTableLocator()->get('Allstations')->find('all')->whereNotNull($requestType)->toArray();
+        } else {
+            $priceinfo=TableRegistry::getTableLocator()->get('Allstations')->find('all')->toArray();
+        }
+        $latestinfo=TableRegistry::getTableLocator()->get('Info')->find('all')->orderAsc('lastfetchtime')->limit(1)->toArray();
+        $this->set(compact('priceinfo','intype','latestinfo'));
+    }
+
     public function table(){
         $latestinfo=TableRegistry::getTableLocator()->get('Info')->find('all')->orderAsc('lastfetchtime')->limit(1)->toArray();
         $statenames=["NATIONWIDE","ACT","NSW","NT","SA","TAS","QLD","VIC","WA"];
