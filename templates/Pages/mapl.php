@@ -2,53 +2,73 @@
 ?>
 <head>
     <title>Mapview</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/css/autocomplete.min.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/js/autocomplete.min.js"></script>
 </head>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/css/autocomplete.min.css"/>
-<script src="https://cdn.jsdelivr.net/gh/tomik23/autocomplete@1.8.4/dist/js/autocomplete.min.js"></script>
 
 <?php echo $this->Html->css('MarkerCluster') ?>
 <?php echo $this->Html->css('MarkerCluster.Default') ?>
 <?php echo $this->Html->script('leaflet.markercluster') ?>
 
-
-<div id="maprow">
-    <div id="map"></div>
-    <footer>
-        <p id="ftline1" style="font-size: 0.65rem">Loading Station data</p>
-        <p id="ftline2"style="font-size: 0.65rem">Loading Address info</p>
-        <p style="font-size: 0.4rem">Data updated on: <?= date_format($latestinfo[0]['lastfetchtime'],'d-M-Y H:i')?></p>
-        <p id="maprange" style="display: none"></p>
-    </footer>
+<div class="container-fluid">
+    <div class="row" id="maptext">
+        <table class="table table-responsive" id="cheapFuelTable" style="display: none">
+            <tr id="rankRow"></tr>
+            <tr id="priceRow"></tr>
+            <tr id="stationRow"></tr>
+        </table>
+        <!--        <button class="col-1 btn btn-info" id="cheaptable">Display</button>-->
+    </div>
+    <div id="map" class="map-container"></div>
+<!--    <div id="maprow">-->
+<!--        -->
+<!--        <footer>-->
+<!--            <p id="ftline1" style="font-size: 0.65rem">Loading Station data</p>-->
+<!--            <p id="ftline2"style="font-size: 0.65rem">Loading Address info</p>-->
+<!--            <p style="font-size: 0.4rem">Data updated on: --><?php //= date_format($latestinfo[0]['lastfetchtime'],'d-M-Y H:i')?><!--</p>-->
+            <p id="maprange" style="display: none"></p>
+<!--        </footer>-->
+<!--    </div>-->
 </div>
 
 
 <style>
     #map {
-        width: 100vw;
-        height: 100vh;
-        height: calc(var(--vh, 1vh) * 95);
+        width: 100%;
+        height: calc(var(--vh, 1vh) * 85);
         min-height: -webkit-fill-available;
         top:0
+        flex-grow: 1;
     }
 
     #maprow{
         top: 0;
-        width: 100vw;
-        min-width: 100%;
         display: flex;
         flex-flow: column;
-        min-height: calc(100vh - 75px);
+        min-height: calc(100vh - 125px);
         min-height: -webkit-fill-available;
     }
 
     footer p{
         bottom: 0;
         margin-bottom: env(safe-area-inset-bottom);
+    }
+
+    .container-fluid {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+    .map-container {
+        height: 400px; /* 临时设置一个初始高度 */
+        width: 100%;
+        flex-grow: 1;  /* 这将使地图填充剩余空间 */
     }
 </style>
 
@@ -57,16 +77,12 @@
     let iconurl = window.location.origin+'/img/fuel/'
     let priceinfo = <?= json_encode($priceinfo);?>;
     let fueltype = window.location.pathname.replace("/mapview/","");
-    let config = {
-        minZoom: 5.5,
-        maxZoom: 16
-    }
-    const map = L.map('map',config).setView([-28, 133], 6);
+    const map = L.map('map',{ minZoom: 5.5, maxZoom: 16 }).setView([-28, 133], 6);
     map.attributionControl.setPrefix("Leaflet")
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 16,
         minZoom: 5.5,
-        attribution: '0xJoy © OpenStreetMap'
+        attribution: 'DynastyFuel © OpenStreetMap'
     }).addTo(map);
     map.locate({setView: true, maxZoom: 16});
 
@@ -155,45 +171,110 @@
     map.on("dragstart", updateCoordInfo);
     map.on("zoomend", setNewArea);
 
-    function updateCoordInfo(north, south){
-        markerPlace.innerText = south === undefined ? "Map Moving" : `NE:${north},SW:${south}`;
-    }
-
     function setNewArea(){
         const bounds = map.getBounds()
         updateCoordInfo(bounds._northEast, bounds._southWest)
         map.fitBounds(bounds)
-        getCheapestStation(bounds._northEast, bounds._southWest)
+        console.log(getCheapStation(bounds._northEast, bounds._southWest))
     }
 
-    document.addEventListener("DOMContentLoaded", function (){
+    document.addEventListener("DOMContentLoaded",function(){
+        let cheapTableBtn = document.createElement("button")
+        cheapTableBtn.textContent = "Show Cheapest Fuel in range"
+        cheapTableBtn.className = "btn btn-info"
+        cheapTableBtn.id = "cheaptableBtn"
+        cheapTableBtn.setAttribute("data-status","closed")
+        if (intype > 0){
+            document.querySelector("#navbarEnd").append(cheapTableBtn)
+        }
+        map.invalidateSize(true);
+
+        cheapTableBtn.addEventListener("click",(ev)=>{
+            ev.preventDefault()
+            if (cheapTableBtn.getAttribute("data-status") === "closed"){
+                cheapTableBtn.className = "btn btn-info"
+                cheapTableBtn.textContent = "Show Cheapest in range"
+                cheapTableBtn.setAttribute("data-status","open")
+                document.querySelector("#cheapFuelTable").style = "display:none"
+                document.querySelector("#map").style.height = "calc(var(--vh, 1vh) * 85)"
+            } else {
+                cheapTableBtn.className = "btn btn-secondary"
+                cheapTableBtn.textContent = "Hide table"
+                cheapTableBtn.setAttribute("data-status","closed")
+                document.querySelector("#cheapFuelTable").style = ""
+                document.querySelector("#map").style.height = "calc(var(--vh, 1vh) * 65)"
+            }
+            map.invalidateSize(true);
+        })
+
+        console.log(priceinfo)
         const bounds = map.getBounds()
         updateCoordInfo(bounds._northEast, bounds._southWest);
-        getCheapestStation(bounds._northEast, bounds._southWest);
+        let cheapStationInfo = getCheapStation(bounds._northEast, bounds._southWest);
+        if (cheapStationInfo.length <=0){
+            document.querySelector("#rankRow").style = "display:none"
+            document.querySelector("#priceRow").innerHTML = "<td colspan='5'>No station data available in range.</td>"
+            document.querySelector("#stationRow").innerHTML = ""
+        }
+        if (intype === 0){
+            document.querySelector("#rankRow").style = "display:none"
+            document.querySelector("#priceRow").innerHTML = "<td colspan='5'>Select a fuel type to show cheapest station info.</td>"
+            document.querySelector("#stationRow").innerHTML = ""
+        }
+
+        console.log(bounds._northEast, bounds._southWest)
+        console.log(cheapStationInfo)
     })
 
-    function getCheapestStation(ne,sw){
-        let cheapeststation = null
-        if (intype === 0){
-            document.getElementById('ftline1').innerText = 'Select a fuel type to show cheapest station info.';
-            document.getElementById('ftline2').style.display = 'none';
-            return ;
-        }
-        document.getElementById('ftline1').innerText = `No station data available in range.`
-        document.getElementById('ftline2').innerText = `......`
+    function getCheapStation(ne,sw){
+        var priceRank=[]
         priceinfo.forEach(function (currentStation, seq, arr) {
-            if (currentStation['loc_lat'] < ne.lat && currentStation['loc_lat'] > sw.lat &&
-                currentStation['loc_lng'] < ne.lng && currentStation['loc_lng'] > sw.lng)
-                if (cheapeststation === null) {
-                    cheapeststation = currentStation
-                    document.getElementById('ftline1').innerHTML = `Cheapest ${fueltype}: ${currentStation[fueltype]} @ <a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${currentStation['loc_lat']}%2C${currentStation['loc_lng']}&travelmode=driving">${currentStation['name']}</a>`
-                    document.getElementById('ftline2').innerText = `Addr: ${currentStation['address']}, ${currentStation['suburb']}, ${currentStation['state']} ${currentStation['postcode']}`
-                } else if (cheapeststation[fueltype] > currentStation[fueltype]) {
-                    cheapeststation = currentStation
-                    document.getElementById('ftline1').innerHTML = `Cheapest ${fueltype}: ${currentStation[fueltype]} @ <a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${currentStation['loc_lat']}%2C${currentStation['loc_lng']}&travelmode=driving">${currentStation['name']}</a>`
-                    document.getElementById('ftline2').innerText = `Addr: ${currentStation['address']}, ${currentStation['suburb']}, ${currentStation['state']} ${currentStation['postcode']}`
+            if (currentStation['loc_lat'] < ne.lat && currentStation['loc_lat'] > sw.lat && currentStation['loc_lng'] < ne.lng && currentStation['loc_lng'] > sw.lng){
+                //     当站点在范围内时候
+                if (currentStation[fueltype]){
+                    priceRank.push(currentStation)
                 }
+            }
         });
+
+        priceRank.sort(function(a,b){
+            return a[fueltype]-b[fueltype]
+        })
+
+        console.log(intype)
+        if (priceRank.length>0 && intype>0){
+            document.querySelector("#rankRow").innerHTML = ""
+            document.querySelector("#priceRow").innerHTML = ""
+            document.querySelector("#stationRow").innerHTML = ""
+            for (let i = 0; i < priceRank.length && i<6; i++) {
+                document.querySelector("#rankRow").innerHTML += `<td>#${i+1}</td>`
+                document.querySelector("#priceRow").innerHTML += `<td>${priceRank[i][fueltype]}</td>`
+                var stationName = document.createElement("td")
+                var stationLink = document.createElement("a")
+                stationLink.style = "font-size: x-small"
+                stationLink.textContent = priceRank[i]["name"]
+                stationLink.href="#"
+                stationLink.addEventListener("click", function(){
+                    map.setView([priceRank[i]["loc_lat"],priceRank[i]["loc_lng"]],15)
+                })
+                stationName.append(stationLink)
+                document.querySelector("#stationRow").append(stationName)
+            }
+        } else if (intype <= 0){
+            document.querySelector("#rankRow").style = "display:none"
+            document.querySelector("#priceRow").innerHTML = "<td colspan='5'>Select a fuel type to show cheapest station info.</td>"
+            document.querySelector("#stationRow").innerHTML = ""
+        } else if (priceRank.length<=0){
+            document.querySelector("#rankRow").style = "display:none"
+            document.querySelector("#priceRow").innerHTML = "<td colspan='5'>No station data available in range.</td>"
+            document.querySelector("#stationRow").innerHTML = ""
+        }
+
+        return priceRank
+    }
+
+    function updateCoordInfo(north, south){
+        markerPlace.innerText = (south === undefined ? "Map Moving" : `NE:${north},SW:${south}`);
     }
 </script>
 <script>
