@@ -6,7 +6,9 @@
 
 <div class="container">
     <p>Data updated on: <?= date_format($latestinfo[0]['lastfetchtime'],'d-M-Y H:i')?></p>
-    <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="DynastyKids" data-color="#FFDD00" data-emoji="⛽"  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
+    <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button"
+            data-slug="DynastyKids" data-color="#FFDD00" data-emoji="⛽"  data-font="Cookie" data-text="Buy me a coffee"
+            data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
     <div class="row">
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -75,13 +77,13 @@
             <?php } ?>
         </div>
     </div>
-    <small>Some of data are provided by Data.NSW, NT Fuel check, WA Fuelwatch etc.</small>
+    <small>Datas are provided by each state/territory authorities, details available in About section.</small>
     <br>
     <small>Disclaimer: The information provided by us on this website is for general information purposes.
         All information are provided in good faith but not representation in any kind, express or implied,
         regarding the accuracy, adequacy, validity, reliability, availability or completeness of any information holding on this Site.
 
-        * Price info are updated every 4 hours.
+        * Price info are updated every 60 mins.
     </small>
     <hr>
 <!--    <small><a href='--><?php //echo $this->Url->build('/development') ?><!--'>Developer's Information</a></small>-->

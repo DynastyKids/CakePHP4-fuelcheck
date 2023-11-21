@@ -42,6 +42,7 @@
             integrity="sha512-OahNHQh8EnqAptVvXgLLIT3LOv+irJSkED9oyUvGvh1MULTHriuXGIk8RHFfRffj5ejGREfE9IRWoBCPSZ5XGw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -77,18 +78,67 @@
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="https://dynastykids.github.io/React-FuelCheck/">Mirrored MapView</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Price Trend (In Next Version)</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">About</a></li>
                 <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a></li>
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+            <form class="d-flex" id="navbarEnd">
+<!--                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+<!--                <button class="btn btn-outline-success" type="submit">Search</button>-->
             </form>
         </div>
     </div>
 </nav>
-    <?= $this->Flash->render() ?>
-    <?= $this->fetch('content') ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<?= $this->Flash->render() ?>
+<?= $this->fetch('content') ?>
+
+<!-- About Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">About</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                This is a fuel checker web App build by Dynastykids.<br><br>
+                It's an open source project and currently available for checking Perth Metro, New South Wales and Tasmaina's fuel price.
+                And seeking if there has any chance to accessing other states data and adding to this site.<br><br>
+
+                NSW's data are provided by <a href="https://api.nsw.gov.au/">API.NSW</a> and supported by
+                <a href="https://www.customerservice.nsw.gov.au/">Department of Customer Service</a><br>
+
+                Tasmania & Canberra areas data are provided by <a href="https://api.nsw.gov.au/">API.NSW</a><br>
+
+                Western Australia's data are provided by <a href="https://www.fuelwatch.wa.gov.au/">FuelWatch</a>
+                and supported by <a href="https://www.dmirs.wa.gov.au/">Department of Mines, Industry Regulation and safety</a><br>
+
+                North Territory's data are provided by <a href="https://myfuelnt.nt.gov.au/">MyFuel NT</a> and supported by
+                <a href="https://consumeraffairs.nt.gov.au/">Northern Territory Consumer Affairs</a><br>
+
+                South Australia's data are provided by <a href="https://www.cbs.sa.gov.au/">Office of Consumer and Business
+                    Services</a> and <a href="https://www.sa.gov.au/">Government of South Australia</a><br>
+
+                Queensland's data are provided by <a href="https://www.cbs.sa.gov.au/">Office of Consumer and Business
+                    Services</a> and <a href="https://www.sa.gov.au/">Government of South Australia</a><br>
+
+                <br><br>Project Avaiable on: <a href="https://github.com/DynastyKids/React-FuelCheck">GitHub</a><br>
+                <small>Disclaimer: The information provided by React-FuelCheck / DynastyFuel ('we', 'us' or 'our') on
+                    this website is for general information purposes. All information are provided in good faith but
+                    not representation in any kind, express or implied, regarding the accuracy, adequacy, validity,
+                    reliability, availability or completeness of any information holding on this Site.
+                </small>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 <style>
@@ -96,5 +146,10 @@
         margin: 0;
         min-height: 100vh;
     }
+
+    /*html, body{*/
+    /*    height: 100%;*/
+    /*    margin: 0;*/
+    /*}*/
 </style>
 </html>
