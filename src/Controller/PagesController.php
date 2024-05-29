@@ -123,4 +123,46 @@ class PagesController extends AppController
         }
         $this->set(compact('allresults','statenames','fueltypes','latestinfo'));
     }
+
+    public function newtable(){
+        $latestinfo=TableRegistry::getTableLocator()->get('Info')->find('all')->orderAsc('lastfetchtime')->limit(1)->toArray();
+        $statenames=["NATIONWIDE","ACT","NSW","NT","SA","TAS","QLD","VIC","WA"];
+        $fueltypes = ["U91","E10","P95","P98","LPG","DL","PDL"];
+        $allresults = ['Status' => '00'];
+
+        foreach ($statenames as $state) {
+            $statecluster = [];
+            if ($state == "NT"){
+                $statecluster+=['LAF'=>TableRegistry::getTableLocator()->get('Allstations')->find()->where(['state'=>$state])
+                    ->select(['brand', 'name', 'address','suburb','state','postcode', 'loc_lat', 'loc_lng', 'LAF'])
+                    ->whereNotNull('LAF')->orderAsc('LAF')];
+            }
+            foreach ($fueltypes as $fueltype) {
+                $resultrow = TableRegistry::getTableLocator()->get('Allstations')->find()->where(['state'=>$state])
+                    ->select(['brand', 'name', 'address','suburb','state','postcode', 'loc_lat', 'loc_lng', $fueltype])
+                    ->whereNotNull($fueltype)->orderAsc($fueltype);
+                if ($state == "NATIONWIDE"){
+                    $resultrow = TableRegistry::getTableLocator()->get('Allstations')->find()
+                        ->select(['brand', 'name', 'address','suburb','state','postcode', 'loc_lat', 'loc_lng', $fueltype])
+                        ->whereNotNull($fueltype)->orderAsc($fueltype);
+                }
+                $statecluster+=[$fueltype=>$resultrow->toArray()];
+            }
+            $allresults += [strtoupper($state) => $statecluster];
+        }
+        $this->set(compact('allresults','statenames','fueltypes','latestinfo'));
+    }
+
+    public function stationdata(){
+        $this->autoRender = false;
+        $referer = $this->request->host();
+        $this->request->allowMethod(['ajax', 'get']);
+        $resultrow = TableRegistry::getTableLocator()->get('Allstations')->find();
+
+        if (!$referer || strpos($referer, $this->request->domain()) === false) {
+            $resultrow= $resultrow->limit(10);
+        }
+
+        return $this->response->withType("application/json")->withStringBody(json_encode($resultrow));
+    }
 }

@@ -53,6 +53,8 @@ return static function (RouteBuilder $routes) {
         $builder->connect('/', ['controller' => 'Pages', 'action' => 'home']);
         $builder->connect('/data', ['controller' => 'Info', 'action' => 'data']);
         $builder->connect('/tableview',['controller' => 'Pages', 'action' => 'table']);
+        $builder->connect('/listview',['controller' => 'Pages', 'action' => 'newtable']);
+        $builder->connect('/getdata',['controller' => 'Pages', 'action' => 'stationdata']);
         $builder->connect('/mapview/*', ['controller' => 'Pages', 'action' => 'mapl']);
         $builder->connect('/fueldata', ['controller' => 'Info', 'action' => 'data']);
         $builder->connect('/cheapinfo', ['controller' => 'Info', 'action' => 'cheapinfo']);
