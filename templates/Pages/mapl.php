@@ -13,14 +13,15 @@
 <?php echo $this->Html->css('MarkerCluster') ?>
 <?php echo $this->Html->css('MarkerCluster.Default') ?>
 <?php echo $this->Html->script('leaflet.markercluster') ?>
-
+<div class="row" style="margin-left: .1rem; margin-right: .1rem">
+    <a href="#" id="cheapestInRange">Show Cheap stations table</a>
+    <table class="table table-responsive" id="cheapFuelTable" style="display: none">
+        <tr id="priceRow"></tr>
+        <tr id="stationRow"></tr>
+    </table>
+</div>
 <div class="container-fluid">
     <div class="row" id="maptext">
-        <table class="table table-responsive" id="cheapFuelTable" style="display: none">
-            <tr id="rankRow"></tr>
-            <tr id="priceRow"></tr>
-            <tr id="stationRow"></tr>
-        </table>
         <!--        <button class="col-1 btn btn-info" id="cheaptable">Display</button>-->
     </div>
     <div id="map" class="map-container"></div>
@@ -60,7 +61,6 @@
 
     .container-fluid {
         display: flex;
-        flex-direction: column;
         width: 100%;
         height: 100%;
     }
@@ -108,38 +108,49 @@
         const customOptions = {maxWidth: "auto", className: "customPopup",};
 
         let iconurl = window.location.origin+'/img/fuel/gas.png'
-        if (currentStation.brand.includes("Eleven") ){ iconurl = window.location.origin+'/img/fuel/711.png'}
-        else if (currentStation.brand.includes("AM/PM") ){ iconurl = window.location.origin+'/img/fuel/ampm.png'}
-        else if (currentStation.brand.includes("Ampol") ){ iconurl = window.location.origin+'/img/fuel/ampol.png'}
-        else if (currentStation.brand.includes("BOC") ){ iconurl = window.location.origin+'/img/fuel/boc.png'}
-        else if (currentStation.brand.includes("BP") ){ iconurl = window.location.origin+'/img/fuel/bp.png'}
-        else if (currentStation.brand.includes("Budget") ){ iconurl = window.location.origin+'/img/fuel/budget.png'}
-        else if (currentStation.brand.includes("Woolworths") ){ iconurl = window.location.origin+'/img/fuel/caltexwws.png'}
-        else if (currentStation.brand.includes("Caltex") ){ iconurl = window.location.origin+'/img/fuel/caltex.png'}
-        else if (currentStation.brand.includes("Chargefox") ){ iconurl = window.location.origin+'/img/fuel/chargefox.png'}
-        else if (currentStation.brand.includes("ChargePoint") ){ iconurl = window.location.origin+'/img/fuel/chargepoint.png'}
-        else if (currentStation.brand.includes("Coles") ){ iconurl = window.location.origin+'/img/fuel/colesexp.png'}
-        else if (currentStation.brand.includes("Costco") ){ iconurl = window.location.origin+'/img/fuel/costco.png'}
-        else if (currentStation.brand.includes("Enhance") ){ iconurl = window.location.origin+'/img/fuel/enhance.png'}
-        else if (currentStation.brand.includes("Everty") ){ iconurl = window.location.origin+'/img/fuel/everty.png'}
-        else if (currentStation.brand.includes("Evie") ){ iconurl = window.location.origin+'/img/fuel/evie.png'}
-        else if (currentStation.brand.includes("EVUp") ){ iconurl = window.location.origin+'/img/fuel/evup.png'}
-        else if (currentStation.brand.includes("Inland") ){ iconurl = window.location.origin+'/img/fuel/inland.png'}
-        else if (currentStation.brand.includes("Liberty") ){ iconurl = window.location.origin+'/img/fuel/liberty.png'}
-        else if (currentStation.brand.includes("Lowes") ){ iconurl = window.location.origin+'/img/fuel/lowes.png'}
-        else if (currentStation.brand.includes("Matilda") ){ iconurl = window.location.origin+'/img/fuel/matilda.png'}
-        else if (currentStation.brand.includes("Metro") || currentStation.brand.includes("metro")){ iconurl = window.location.origin+'/img/fuel/metro.png'}
-        else if (currentStation.brand.includes("Mobil") ){ iconurl = window.location.origin+'/img/fuel/mobil.png'}
-        else if (currentStation.brand.includes("Mogas") ){ iconurl = window.location.origin+'/img/fuel/mogas.png'}
-        else if (currentStation.brand.includes("NRMA") ){ iconurl = window.location.origin+'/img/fuel/nrma.png'}
-        else if (currentStation.brand.includes("Puma") ){ iconurl = window.location.origin+'/img/fuel/puma.png'}
-        else if (currentStation.brand.includes("Shell") ){ iconurl = window.location.origin+'/img/fuel/shell.png'}
-        else if (currentStation.brand.includes("Speedway") ){ iconurl = window.location.origin+'/img/fuel/speedway.png'}
-        else if (currentStation.brand.includes("Tesla") ){ iconurl = window.location.origin+'/img/fuel/tesla.png'}
-        else if (currentStation.brand.includes("United") ){ iconurl = window.location.origin+'/img/fuel/united.png'}
-        else if (currentStation.brand.includes("Vibe") ){ iconurl = window.location.origin+'/img/fuel/vibe.png'}
-        else if (currentStation.brand.includes("Westside") ){ iconurl = window.location.origin+'/img/fuel/westside.png'}
-        else if (currentStation.brand.includes("X Convenience") ){ iconurl = window.location.origin+'/img/fuel/x.png'}
+        let brandObject= [
+            // Fuel Stations
+            {brand: "7-eleven", keyword:"eleven", img: "/img/fuel/711.png"},
+            {brand: "AM/PM", keyword:"am/pm", img: "/img/fuel/ampm.png"},
+            {brand: "Ampol", keyword:"ampol", img: "/img/fuel/ampol.png"},
+            {brand: "BOC", keyword:"boc", img: "/img/fuel/boc.png"},
+            {brand: "BP", keyword:"bp", img: "/img/fuel/bp.png"},
+            {brand: "Budget", keyword:"budget", img: "/img/fuel/budget.png"},
+            {brand: "Woolworths", keyword:"woolworths", img: "/img/fuel/caltexwws.png"},
+            {brand: "Caltex", keyword:"caltex", img: "/img/fuel/caltex.png"},
+            {brand: "Coles", keyword:"coles", img: "/img/fuel/colesexp.png"},
+            {brand: "Costco", keyword:"costco", img: "/img/fuel/costco.png"},
+            {brand: "Enhance", keyword:"enhance", img: "/img/fuel/enhance.png"},
+            {brand: "Inland", keyword:"inland", img: "/img/fuel/inland.png"},
+            {brand: "Liberty", keyword:"liberty", img: "/img/fuel/liberty.png"},
+            {brand: "Lowes", keyword:"lowes", img: "/img/fuel/lowes.png"},
+            {brand: "Matilda", keyword:"matilda", img: "/img/fuel/matilda.png"},
+            {brand: "Metro", keyword:"metro", img: "/img/fuel/metro.png"},
+            {brand: "Mobil", keyword:"mobil", img: "/img/fuel/mobil.png"},
+            {brand: "Mogas", keyword:"mogas", img: "/img/fuel/mogas.png"},
+            {brand: "Puma", keyword:"puma", img: "/img/fuel/puma.png"},
+            {brand: "Shell", keyword:"shell", img: "/img/fuel/shell.png"},
+            {brand: "Speedway", keyword:"speedway", img: "/img/fuel/speedway.png"},
+            {brand: "United", keyword:"united", img: "/img/fuel/united.png"},
+            {brand: "Vibe", keyword:"vibe", img: "/img/fuel/vibe.png"},
+            {brand: "Westside", keyword:"mogas", img: "/img/fuel/westside.png"},
+            {brand: "X Convenience", keyword:"mogas", img: "/img/fuel/x.png"},
+
+            // EV Series
+            {brand: "Chargefox", keyword:"chargefox", img: "/img/fuel/chargefox.png"},
+            {brand: "ChargePoint", keyword:"chargepoint", img: "/img/fuel/chargepoint.png"},
+            {brand: "Everty", keyword:"everty", img: "/img/fuel/everty.png"},
+            {brand: "Evie", keyword:"evie", img: "/img/fuel/evie.png"},
+            {brand: "EVUp", keyword:"evup", img: "/img/fuel/evup.png"},
+            {brand: "NRMA", keyword:"nrma", img: "/img/fuel/nrma.png"},
+            {brand: "Tesla", keyword:"tesla", img: "/img/fuel/tesla.png"},
+        ]
+
+        for (let i = 0; i < brandObject.length; i++) {
+            if (currentStation.brand.toLowerCase().includes(brandObject[i]['keyword'])){
+                iconurl = window.location.origin+brandObject[i]['img']
+            }
+        }
 
         const customicon = L.icon({iconUrl : iconurl, iconSize: [25, 25]})
         let marker = new L.marker([currentStation.loc_lat, currentStation.loc_lng], {
@@ -174,56 +185,34 @@
     function setNewArea(){
         const bounds = map.getBounds()
         updateCoordInfo(bounds._northEast, bounds._southWest)
+        getCheapStation(bounds._northEast, bounds._southWest)
         map.fitBounds(bounds)
-        console.log(getCheapStation(bounds._northEast, bounds._southWest))
     }
 
-    document.addEventListener("DOMContentLoaded",function(){
-        let cheapTableBtn = document.createElement("button")
-        cheapTableBtn.textContent = "Show Cheapest Fuel in range"
-        cheapTableBtn.className = "btn btn-info"
-        cheapTableBtn.id = "cheaptableBtn"
-        cheapTableBtn.setAttribute("data-status","closed")
-        if (intype > 0){
-            document.querySelector("#navbarEnd").append(cheapTableBtn)
+    document.querySelector("#cheapestInRange").addEventListener("click",function(){
+        map.invalidateSize(true);
+        if (document.querySelector("#cheapestInRange").innerText.includes("Show")){
+            document.querySelector("#cheapestInRange").innerText = "Hide Cheap stations table"
+            document.querySelector("#cheapFuelTable").style.display = null
+        } else {
+            document.querySelector("#cheapestInRange").innerText = "Show Cheap stations table"
+            document.querySelector("#cheapFuelTable").style.display = "none"
         }
         map.invalidateSize(true);
+    })
 
-        cheapTableBtn.addEventListener("click",(ev)=>{
-            ev.preventDefault()
-            if (cheapTableBtn.getAttribute("data-status") === "closed"){
-                cheapTableBtn.className = "btn btn-info"
-                cheapTableBtn.textContent = "Show Cheapest in range"
-                cheapTableBtn.setAttribute("data-status","open")
-                document.querySelector("#cheapFuelTable").style = "display:none"
-                document.querySelector("#map").style.height = "calc(var(--vh, 1vh) * 85)"
-            } else {
-                cheapTableBtn.className = "btn btn-secondary"
-                cheapTableBtn.textContent = "Hide table"
-                cheapTableBtn.setAttribute("data-status","closed")
-                document.querySelector("#cheapFuelTable").style = ""
-                document.querySelector("#map").style.height = "calc(var(--vh, 1vh) * 65)"
-            }
-            map.invalidateSize(true);
-        })
-
-        console.log(priceinfo)
+    document.addEventListener("DOMContentLoaded",function(){
         const bounds = map.getBounds()
         updateCoordInfo(bounds._northEast, bounds._southWest);
         let cheapStationInfo = getCheapStation(bounds._northEast, bounds._southWest);
         if (cheapStationInfo.length <=0){
-            document.querySelector("#rankRow").style = "display:none"
             document.querySelector("#priceRow").innerHTML = "<td colspan='5'>No station data available in range.</td>"
             document.querySelector("#stationRow").innerHTML = ""
         }
         if (intype === 0){
-            document.querySelector("#rankRow").style = "display:none"
             document.querySelector("#priceRow").innerHTML = "<td colspan='5'>Select a fuel type to show cheapest station info.</td>"
             document.querySelector("#stationRow").innerHTML = ""
         }
-
-        console.log(bounds._northEast, bounds._southWest)
-        console.log(cheapStationInfo)
     })
 
     function getCheapStation(ne,sw){
@@ -241,31 +230,26 @@
             return a[fueltype]-b[fueltype]
         })
 
-        console.log(intype)
         if (priceRank.length>0 && intype>0){
-            document.querySelector("#rankRow").innerHTML = ""
             document.querySelector("#priceRow").innerHTML = ""
             document.querySelector("#stationRow").innerHTML = ""
-            for (let i = 0; i < priceRank.length && i<6; i++) {
-                document.querySelector("#rankRow").innerHTML += `<td>#${i+1}</td>`
+            for (let i = 0; i < priceRank.length && i<5; i++) {
                 document.querySelector("#priceRow").innerHTML += `<td>${priceRank[i][fueltype]}</td>`
                 var stationName = document.createElement("td")
                 var stationLink = document.createElement("a")
-                stationLink.style = "font-size: x-small"
-                stationLink.textContent = priceRank[i]["name"]
+                stationLink.style = "font-size: xx-small"
+                stationLink.textContent = priceRank[i]["name"].length <= 20 ? priceRank[i]["name"] : priceRank[i]["name"].substring(0,20) + "..."
                 stationLink.href="#"
                 stationLink.addEventListener("click", function(){
-                    map.setView([priceRank[i]["loc_lat"],priceRank[i]["loc_lng"]],15)
+                    map.setView([priceRank[i]["loc_lat"],priceRank[i]["loc_lng"]],18)
                 })
                 stationName.append(stationLink)
                 document.querySelector("#stationRow").append(stationName)
             }
         } else if (intype <= 0){
-            document.querySelector("#rankRow").style = "display:none"
             document.querySelector("#priceRow").innerHTML = "<td colspan='5'>Select a fuel type to show cheapest station info.</td>"
             document.querySelector("#stationRow").innerHTML = ""
         } else if (priceRank.length<=0){
-            document.querySelector("#rankRow").style = "display:none"
             document.querySelector("#priceRow").innerHTML = "<td colspan='5'>No station data available in range.</td>"
             document.querySelector("#stationRow").innerHTML = ""
         }

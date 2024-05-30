@@ -9,11 +9,10 @@
 </head>
 
 <div class="container">
-    <p>Data updated on: <?= date_format($latestinfo[0]['lastfetchtime'], 'd-M-Y H:i') ?></p>
     <div class="row">
         <div class="row">
             <nav>
-                <p>State: </p>
+                <div>State: </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input stateCheckbox" name="stateCheckbox" type="radio" id="stateCheckboxACT" value="ACT">
                     <label class="form-check-label" for="stateCheckboxACT">ACT</label>
@@ -47,9 +46,9 @@
                     <label class="form-check-label" for="stateCheckboxWA">WA</label>
                 </div>
             </nav>
-            <br>
+            <hr>
             <nav>
-            <p>Fuel Types:</p>
+            <div>Fuel Types:</div>
             <div class="form-check form-check-inline">
                 <input class="form-check-input fuelTypeCheck" name="fuelTypeCheck" type="radio" id="inlineCheckbox1" value="U91" checked>
                 <label class="form-check-label" for="inlineCheckbox1">Unleaded 91</label>
@@ -82,6 +81,7 @@
             </div>
             </nav>
         </div>
+        <hr>
         <div class="tab-content container-fluid">
         <table class="table table-hove" id="dataTable">
             <thead>
@@ -101,15 +101,20 @@
         </table>
         </div>
     </div>
-    <small>Datas are provided by each state/territory authorities, details available in About section.</small>
-    <br>
-    <small>Disclaimer: The information provided by us on this website is for general information purposes.
-        All information are provided in good faith but not representation in any kind, express or implied,
-        regarding the accuracy, adequacy, validity, reliability, availability or completeness of any information holding
-        on this Site.
-
-        * Price info are updated every 60 mins.
-    </small>
+    <div style="font-size: xx-small">
+        <div>
+            <table>
+                <tr><td colspan="2">Data Updated</td></tr>
+                <?php foreach ($latestinfo as $result){?>
+                    <tr><td><?= $result['state'] ?></td><td><?= date_format($result['lastfetchtime'], 'd-M-Y H:i') ?></td></tr>
+                <?php } ?>
+            </table>
+        </div>
+        <div>Disclaimer: The information provided by us on this website is for general information purposes.
+            All information are provided in good faith but not representation in any kind, express or implied,
+            regarding the accuracy, adequacy, validity, reliability, availability or completeness of any information holding on this Site.
+        </div>
+    </div>
     <hr>
     <!--    <small><a href='-->
     <?php //echo $this->Url->build('/development') ?><!--'>Developer's Information</a></small>-->
@@ -133,7 +138,9 @@
             .catch(error => {
                 console.error('Error:', error.statusText);
             });
+        adjustTableTextSize()
     })
+    window.addEventListener('resize', adjustTableTextSize);
 
     document.querySelectorAll(".stateCheckbox").forEach(eachRadioButton=>{
         eachRadioButton.addEventListener("change",function(){
@@ -160,7 +167,7 @@
                     if (eachFuelType.checked){
                         for (const eachData of priceData) {
                             if (eachData['state']===eachState.value && eachData[eachFuelType.value] != null){
-                                targetData.push([eachData['name'],eachData[eachFuelType.value], `<a href=https://www.google.com/maps/search/?api=1&query=${eachData['loc_lat']}%2C${eachData['loc_lng']}>${eachData["address"]}, ${eachData['suburb']} ${eachData['postcode']}</a>`])
+                                targetData.push([eachData['name'],eachData[eachFuelType.value], `<a href=https://www.google.com/maps/search/?api=1&query=${eachData['loc_lat']}%2C${eachData['loc_lng']}>${eachData["address"]}, ${eachData['suburb'] ? eachData['suburb'] : ""} ${eachData['state'] ? eachData['state'] : ""} ${eachData['postcode'] ? eachData['postcode'] : ""}</a>`])
                             }
                         }
                     }
@@ -180,5 +187,14 @@
                 }
                 return response.json();
             });
+    }
+
+    function adjustTableTextSize(){
+        const table = document.querySelector('#dataTable');
+        if (window.innerWidth < 576) {
+            table.setAttribute("style","font-size:small");
+        } else {
+            table.removeAttribute("style")
+        }
     }
 </script>

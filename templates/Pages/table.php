@@ -77,16 +77,17 @@
             <?php } ?>
         </div>
     </div>
-    <small>Datas are provided by each state/territory authorities, details available in About section.</small>
-    <br>
-    <small>Disclaimer: The information provided by us on this website is for general information purposes.
-        All information are provided in good faith but not representation in any kind, express or implied,
-        regarding the accuracy, adequacy, validity, reliability, availability or completeness of any information holding on this Site.
+    <div style="font-size: xx-small">
+        <div>Datas are provided by each state/territory authorities, details available in About section.</div>
+        <div>Disclaimer: The information provided by us on this website is for general information purposes.
+            All information are provided in good faith but not representation in any kind, express or implied,
+            regarding the accuracy, adequacy, validity, reliability, availability or completeness of any information holding on this Site.
 
-        * Price info are updated every 60 mins.
-    </small>
+            * Price info are updated every 60 mins.
+        </div>
+    </div>
+
     <hr>
 <!--    <small><a href='--><?php //echo $this->Url->build('/development') ?><!--'>Developer's Information</a></small>-->
 </div>
-</div>
-</div>
+

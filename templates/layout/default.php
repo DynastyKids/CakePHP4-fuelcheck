@@ -45,10 +45,11 @@
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">DynastyFuel</span>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand mb-0" href="/">DynastyFuel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -77,7 +78,7 @@
                         <li><a class="dropdown-item" href="<?= $this->Url->build(['controller'=>'pages','action'=>'mapl','EV'])?>">Electric</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="https://dynastykids.github.io/React-FuelCheck/">Mirrored MapView</a></li>
+<!--                <li class="nav-item"><a class="nav-link" href="https://dynastykids.github.io/React-FuelCheck/">Mirrored MapView</a></li>-->
                 <li class="nav-item"><a class="nav-link" href="#">Price Trend (In Next Version)</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">About</a></li>
                 <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a></li>

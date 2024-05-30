@@ -125,7 +125,7 @@ class PagesController extends AppController
     }
 
     public function newtable(){
-        $latestinfo=TableRegistry::getTableLocator()->get('Info')->find('all')->orderAsc('lastfetchtime')->limit(1)->toArray();
+        $latestinfo=TableRegistry::getTableLocator()->get('Info')->find('all')->orderAsc('lastfetchtime')->toArray();
         $statenames=["NATIONWIDE","ACT","NSW","NT","SA","TAS","QLD","VIC","WA"];
         $fueltypes = ["U91","E10","P95","P98","LPG","DL","PDL"];
         $allresults = ['Status' => '00'];
